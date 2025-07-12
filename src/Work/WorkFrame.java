@@ -12,13 +12,15 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static Simulation.SimulationState.radius;
+
 public class WorkFrame extends JFrame {
     private final JPanel panelSet;
     private final JPanel panelGet;
     private final SimulationRunner simulationRunner;
     private int width = 500;
     private int height = 500;
-    private int radius;
+
     private final int xOffset = 80;
     private final int yOffset = 80;
     int border = 15;
@@ -112,7 +114,6 @@ public class WorkFrame extends JFrame {
                     running.set(true);
                     toggleControls(massControl, tempControl, countControl, widthControl, heightControl, comboBox, false);
                     showParticles = true;
-                    radius = molarMass / 100 + 2;
                     SimulationState state = SimulationInitializer.init(
                             width_work,   // ширина окна
                             height_work,

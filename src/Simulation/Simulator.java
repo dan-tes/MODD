@@ -17,7 +17,10 @@ public class Simulator {
                 MaterialPoint p2 = state.points.get(j);
                 handleElasticCollision(p1, p2);
             }
-
+            if (Math.abs(p1.getVx()) <= 0.1 || Math.abs(  p1.getVy()) <= 0.1) {
+                System.out.println(p1.getVx() + " " + p1.getVy());
+                System.out.println(p1.getXFloat() + " " + p1.getYFloat());
+            }
 
             handleWallCollision(p1);
             updatePosition(p1);
@@ -28,25 +31,25 @@ public class Simulator {
     private void handleElasticCollision(MaterialPoint p1, MaterialPoint p2) {
 
 //
-        double dx = p2.getX() - p1.getX();
-        double dy = p2.getY() - p1.getY();
+        double dx = p2.getXFloat() - p1.getXFloat();
+        double dy = p2.getYFloat() - p1.getYFloat();
         double distSq = dx * dx + dy * dy;
-        double radiusSum = state.radius * 2;
+        double radiusSum = SimulationState.radius * 2;
 //
         if (distSq < radiusSum * radiusSum) {
 
             double vx1 = p1.getVx(),  vy1 = p1.getVy();
-            double random =  Math.random() * (vx1 + vy1) / 100;
+            double random =0;//  Math.random() * (vx1 + vy1) / 100;
             p1.setVx(p2.getVx() + random);
             p1.setVy(p2.getVy() - random);
-            p2.setVx(vx1- random);
+            p2.setVx(vx1 - random);
             p2.setVy(vy1 + random);
 
             double overlap = getOverlap(distSq, radiusSum);
-            p1.setX((int)(p1.getX() - overlap));
-            p1.setY((int)(p1.getY() + overlap));
-            p2.setX((int)(p2.getX() + overlap));
-            p2.setY((int)(p2.getY() - overlap));
+            p1.setX((p1.getXFloat() - overlap));
+            p1.setY((p1.getYFloat() + overlap));
+            p2.setX((p2.getXFloat() + overlap));
+            p2.setY((p2.getYFloat() - overlap));
         }
     }
 
@@ -82,26 +85,27 @@ public class Simulator {
     }
 
     private void handleWallCollision(MaterialPoint p) {
-        if (p.getX() < 0) {
-            p.setX(0);
+        if (p.getXFloat() <= 0) {
+            p.setX(0.1);
             p.setVx(-p.getVx());
-        } else if (p.getX() > state.width) {
-            p.setX(state.width);
+        } else if (p.getXFloat() >= state.width) {
+            p.setX(state.width - 0.1);
             p.setVx(-p.getVx());
         }
 
-        if (p.getY() < 0) {
-            p.setY(0);
+        if (p.getYFloat() <= 0) {
+            p.setY(0.1);
             p.setVy(-p.getVy());
-        } else if (p.getY() > state.height) {
-            p.setY(state.height);
+        } else if (p.getYFloat() >= state.height) {
+            p.setY(state.height - 0.1);
             p.setVy(-p.getVy());
         }
+
     }
 
     private void updatePosition(MaterialPoint p) {
-        p.setX((int)(p.getX() + p.getVx() * SimulationState.deltaTime));
-        p.setY((int)(p.getY() - p.getVy() * SimulationState.deltaTime));
+        p.setX((p.getXFloat() + p.getVx() * SimulationState.deltaTime));
+        p.setY((p.getYFloat() - p.getVy() * SimulationState.deltaTime));
     }
 
     private void updateDirection(MaterialPoint p) {

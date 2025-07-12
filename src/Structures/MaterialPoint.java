@@ -6,10 +6,19 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MaterialPoint {
-    int x;
-    int y;
-    int Xo;
-    int Yo;
+    double x;
+
+    public int getX() {
+        return (int) x;
+    }
+
+    public int getY() {
+        return (int) y;
+    }
+
+    double y;
+    double Xo;
+    double Yo;
     double g;
     double Vx;
     double Vy;
@@ -75,11 +84,11 @@ public class MaterialPoint {
     }
 
     public int getXo() {
-        return this.Xo;
+        return (int) this.Xo;
     }
 
     public int getYo() {
-        return this.Yo;
+        return (int) this.Yo;
     }
 
     public double getVy() {
@@ -98,19 +107,19 @@ public class MaterialPoint {
         return this.g;
     }
 
-    public int getX() {
+    public double getXFloat() {
         return this.x;
     }
 
-    public int getY() {
+    public double getYFloat() {
         return this.y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
