@@ -2,15 +2,15 @@ package Simulation;
 
 import Structures.MaterialPoint;
 
+import java.util.Vector;
+
 public class SimulationState {
-    public int molarMass;
-    public int temperature;
     public int quantityPoints;
     public int width;
     public int height;
     public int radius;
     public double velocity;
-    public double deltaTime;
+    public static double deltaTime = 0.042;
     public double time;
-    public MaterialPoint[] points;
+    public Vector<MaterialPoint> points;
 }

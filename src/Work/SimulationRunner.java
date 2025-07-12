@@ -3,6 +3,8 @@ package Work;
 import Simulation.*;
 import Structures.MaterialPoint;
 
+import java.util.Vector;
+
 public class SimulationRunner implements Runnable {
     private SimulationState state;
     private Simulator simulator;
@@ -17,9 +19,9 @@ public class SimulationRunner implements Runnable {
         while (running) {
             long ti = System.currentTimeMillis();
             simulator.tick();
-            state.time += state.deltaTime;
+            state.time += SimulationState.deltaTime;
             workFrame.updateParticles(state.points);
-            long sleepTime = ti + (long)(state.deltaTime * 1000) - System.currentTimeMillis();
+            long sleepTime = ti + (long)(SimulationState.deltaTime * 1000) - System.currentTimeMillis();
             if (sleepTime > 0) {
                 try {
                     Thread.sleep(sleepTime);
@@ -41,7 +43,7 @@ public class SimulationRunner implements Runnable {
         running = false;
     }
 
-    public MaterialPoint[] getPoints() {
+    public Vector<MaterialPoint> getPoints() {
         return state.points;
     }
 }

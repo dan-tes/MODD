@@ -1,5 +1,7 @@
 package Structures;
 
+import Simulation.SimulationState;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -12,13 +14,10 @@ public class MaterialPoint {
     double Vx;
     double Vy;
     double time = 0.0F;
-    static int Y1;
-    static int X1;
-    static double delTime;
     boolean collision = false;
     short type;
 
-    public MaterialPoint(int Y, int X, double time) {
+    public MaterialPoint(int Y, int X) {
         Random random = new Random();
 
         do {
@@ -31,9 +30,6 @@ public class MaterialPoint {
 
         this.Xo = this.x;
         this.Yo = this.y;
-        Y1 = Y;
-        X1 = X;
-        delTime = time;
         this.g = random.nextInt(360);
         type = (short) (random.nextInt(4));
     }
@@ -46,7 +42,7 @@ public class MaterialPoint {
         if (time != (double)-1.0F) {
             this.time += time;
         } else {
-            this.time = delTime / (double)2.0F;
+            this.time = SimulationState.deltaTime / (double)2.0F;
         }
 
     }

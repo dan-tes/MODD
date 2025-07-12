@@ -3,11 +3,13 @@ package Work;
 import Simulation.SimulationInitializer;
 import Simulation.SimulationState;
 import Structures.MaterialPoint;
+import Structures.PointsParameters;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WorkFrame extends JFrame {
@@ -21,7 +23,7 @@ public class WorkFrame extends JFrame {
     private final int yOffset = 80;
     int border = 15;
     private boolean showParticles;
-    private MaterialPoint[] materialPoints;
+    private Vector<MaterialPoint> materialPoints;
 
     public WorkFrame(SimulationRunner simulationRunner) {
         this.simulationRunner = simulationRunner;
@@ -112,13 +114,11 @@ public class WorkFrame extends JFrame {
                     showParticles = true;
                     radius = molarMass / 100 + 2;
                     SimulationState state = SimulationInitializer.init(
-                            molarMass,    // molar mass (например, азот)
-                            temperature,    // температура (например, 25°C)
-                            particleCount,    // 50 частиц
                             width_work,   // ширина окна
-                            height_work,   // высота окна
-                            radius
-                    );
+                            height_work,
+                            new PointsParameters[]{new PointsParameters(molarMass,    // molar mass (например, азот)
+                                    temperature,    // температура (например, 25°C)
+                                    particleCount)});
 
                     simulationRunner.start(state);
                 }
@@ -164,7 +164,7 @@ public class WorkFrame extends JFrame {
         }
     }
 
-    public void updateParticles(MaterialPoint[] points) {
+    public void updateParticles(Vector<MaterialPoint> points) {
         this.materialPoints = points;
         panelGet.repaint();
     }

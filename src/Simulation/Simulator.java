@@ -11,10 +11,10 @@ public class Simulator {
 
     public void tick() {
         for (int i = 0; i < state.quantityPoints; ++i) {
-            MaterialPoint p1 = state.points[i];
+            MaterialPoint p1 = state.points.get(i);
 
             for (int j = i + 1; j < state.quantityPoints; ++j) {
-                MaterialPoint p2 = state.points[j];
+                MaterialPoint p2 = state.points.get(j);
                 handleElasticCollision(p1, p2);
             }
 
@@ -82,36 +82,26 @@ public class Simulator {
     }
 
     private void handleWallCollision(MaterialPoint p) {
-        boolean collided = false;
-
         if (p.getX() < 0) {
             p.setX(0);
             p.setVx(-p.getVx());
-            collided = true;
         } else if (p.getX() > state.width) {
             p.setX(state.width);
             p.setVx(-p.getVx());
-            collided = true;
         }
 
         if (p.getY() < 0) {
             p.setY(0);
             p.setVy(-p.getVy());
-            collided = true;
         } else if (p.getY() > state.height) {
             p.setY(state.height);
             p.setVy(-p.getVy());
-            collided = true;
         }
-//
-//        if (collided) {
-//            updateDirection(p);
-//        }
     }
 
     private void updatePosition(MaterialPoint p) {
-        p.setX((int)(p.getX() + p.getVx() * state.deltaTime));
-        p.setY((int)(p.getY() - p.getVy() * state.deltaTime));
+        p.setX((int)(p.getX() + p.getVx() * SimulationState.deltaTime));
+        p.setY((int)(p.getY() - p.getVy() * SimulationState.deltaTime));
     }
 
     private void updateDirection(MaterialPoint p) {
