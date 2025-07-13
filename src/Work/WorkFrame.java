@@ -119,7 +119,7 @@ public class WorkFrame extends JFrame {
                             height_work,
                             new PointsParameters[]{new PointsParameters(molarMass,    // molar mass (например, азот)
                                     temperature,    // температура (например, 25°C)
-                                    particleCount)});
+                                    particleCount, Color.GREEN)});
 
                     simulationRunner.start(state);
                 }
@@ -147,9 +147,11 @@ public class WorkFrame extends JFrame {
                 g.setColor(Color.BLACK);
                 if (showParticles && materialPoints != null) {
                     for (MaterialPoint point : materialPoints) {
+                        g.setColor(point.getColor());
                         g.fillOval(point.getX() + xOffset, point.getY() + yOffset, radius * 2, radius * 2);
                     }
                 }
+                g.setColor(Color.BLACK);
                 drawFrame(g);
 
             }

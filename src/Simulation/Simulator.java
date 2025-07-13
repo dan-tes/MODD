@@ -17,10 +17,6 @@ public class Simulator {
                 MaterialPoint p2 = state.points.get(j);
                 handleElasticCollision(p1, p2);
             }
-            if (Math.abs(p1.getVx()) <= 0.1 || Math.abs(  p1.getVy()) <= 0.1) {
-                System.out.println(p1.getVx() + " " + p1.getVy());
-                System.out.println(p1.getXFloat() + " " + p1.getYFloat());
-            }
 
             handleWallCollision(p1);
             updatePosition(p1);
@@ -39,11 +35,10 @@ public class Simulator {
         if (distSq < radiusSum * radiusSum) {
 
             double vx1 = p1.getVx(),  vy1 = p1.getVy();
-            double random =0;//  Math.random() * (vx1 + vy1) / 100;
-            p1.setVx(p2.getVx() + random);
-            p1.setVy(p2.getVy() - random);
-            p2.setVx(vx1 - random);
-            p2.setVy(vy1 + random);
+            p1.setVx(p2.getVx());
+            p1.setVy(p2.getVy());
+            p2.setVx(vx1);
+            p2.setVy(vy1);
 
             double overlap = getOverlap(distSq, radiusSum);
             p1.setX((p1.getXFloat() - overlap));
@@ -56,30 +51,6 @@ public class Simulator {
     private static double getOverlap(double distSq, double radiusSum) {
         double dist = Math.sqrt(distSq);
         if (dist == 0) dist = 0.001;
-//
-//            // Нормализованный вектор направления
-//            double nx = dx / dist;
-//            double ny = dy / dist;
-//
-//            // Разность скоростей
-//            double vxRel = p1.getVx() - p2.getVx();
-//            double vyRel = p1.getVy() - p2.getVy();
-//
-//            double velAlongNormal = vxRel * nx + vyRel * ny;
-////            if (velAlongNormal > 0) return; // уже расходятся
-//
-//            // Импульс
-//            double impulse = -2 * velAlongNormal / 2;
-//
-//            double impulseX = impulse * nx;
-//            double impulseY = impulse * ny;
-//
-//            p1.setVx(p1.getVx() + impulseX);
-//            p1.setVy(p1.getVy() + impulseY);
-//            p2.setVx(p2.getVx() - impulseX);
-//            p2.setVy(p2.getVy() - impulseY);
-//
-//            // Раздвигаем, чтобы не залипли
         double overlap = (radiusSum - dist);
         return overlap;
     }

@@ -19,7 +19,7 @@ public class SimulationInitializer {
             state.velocity = 5.0 * Math.sqrt((pointsParameter.getTemperature() + 273) / pointsParameter.getMolarMass());
 
             for (int j = 0; pointsParameter.getQuantityPoints() > j; ++j) {
-                MaterialPoint point = new MaterialPoint(height, width);
+                MaterialPoint point = new MaterialPoint(height, width, pointsParameter.getColor());
                 double angleRad = Math.toRadians(point.getG());
                 point.setVx(Math.cos(angleRad) * state.velocity);
                 point.setVy(Math.sin(angleRad) * state.velocity);

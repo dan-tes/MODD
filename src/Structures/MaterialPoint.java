@@ -2,6 +2,7 @@ package Structures;
 
 import Simulation.SimulationState;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
@@ -23,10 +24,14 @@ public class MaterialPoint {
     double Vx;
     double Vy;
     double time = 0.0F;
-    boolean collision = false;
-    short type;
 
-    public MaterialPoint(int Y, int X) {
+    public Color getColor() {
+        return color;
+    }
+
+    Color color;
+
+    public MaterialPoint(int Y, int X, Color color) {
         Random random = new Random();
 
         do {
@@ -40,7 +45,7 @@ public class MaterialPoint {
         this.Xo = this.x;
         this.Yo = this.y;
         this.g = random.nextInt(360);
-        type = (short) (random.nextInt(4));
+        this.color = color;
     }
 
     public double getTime() {
@@ -125,13 +130,5 @@ public class MaterialPoint {
 
     public void setG(double g) {
         this.g = g;
-    }
-
-    public boolean getCollision() {
-        return this.collision;
-    }
-
-    public void setCollision(boolean b) {
-        this.collision = b;
     }
 }
