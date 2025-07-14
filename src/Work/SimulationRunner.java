@@ -5,14 +5,16 @@ import Structures.MaterialPoint;
 
 import java.util.Vector;
 
-public class SimulationRunner implements Runnable {
+public class SimulationRunner<Model extends Models> implements Runnable {
     private SimulationState state;
     private Simulator simulator;
     private final WorkFrame workFrame;
     private boolean running = true;
+    private Model model;
 
-    public SimulationRunner() {
-        this.workFrame = new WorkFrame(this);
+    public SimulationRunner(Model model) {
+        this.model = model;
+        this.workFrame = new WorkFrame(this, model);
     }
 
     public void run() {
