@@ -44,4 +44,11 @@ public class PointsParameters {
         this.color = color;
     }
 
+    public void setMolarMass(double molarMass) {
+        this.molarMass = molarMass / 1000;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
 }

@@ -9,6 +9,11 @@ public class SimulationRunner<Model extends Models> implements Runnable {
     private SimulationState state;
     private Simulator simulator;
     private final WorkFrame workFrame;
+
+    public boolean isRunning() {
+        return running;
+    }
+
     private boolean running = true;
     private Model model;
 

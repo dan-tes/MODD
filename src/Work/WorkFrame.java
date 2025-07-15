@@ -50,14 +50,14 @@ public class WorkFrame<Model extends Models> extends JFrame {
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        for (PointsParameters pp: this.model.points_parameters){
-        GasPropertiesPanel gasPropertiesPanel = new GasPropertiesPanel(pp);
-        gasPropertiesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        gasPropertiesPanel.setMaximumSize(new Dimension(300, gasPropertiesPanel.getPreferredSize().height));
-        controlPanel.add(gasPropertiesPanel);
-
-        controlPanel.add(Box.createVerticalStrut(10));}
+        GasPropertiesPanel[] gasPropertiesPanels = new GasPropertiesPanel[this.model.points_parameters.length];
+        for (int i = 0; i < this.model.points_parameters.length; i++) {
+            gasPropertiesPanels[i] = new GasPropertiesPanel(this.model.points_parameters[i]);
+            gasPropertiesPanels[i].setAlignmentX(Component.LEFT_ALIGNMENT);
+            gasPropertiesPanels[i].setMaximumSize(new Dimension(300, gasPropertiesPanels[i].getPreferredSize().height));
+            controlPanel.add(gasPropertiesPanels[i]);
+            controlPanel.add(Box.createVerticalStrut(10));
+        }
 
         // Width и Height
         JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", 500);
@@ -76,26 +76,19 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
         startStopButton.addActionListener(e -> {
             if (!running.get()) {
-//                int molarMass = ((JSlider) massControl[0]).getValue();
-//                int temperature = ((JSlider) tempControl[0]).getValue();
-//                int particleCount = ((JSlider) countControl[0]).getValue();
-//                int width_work = ((JSlider) widthControl[0]).getValue();
-//                int height_work = ((JSlider) heightControl[0]).getValue();
-//
-//                if (molarMass >= 1 && particleCount >= 1) {
-//                    startStopButton.setText("Стоп");
-//                    running.set(true);
-//                    toggleControls(massControl, tempControl, countControl, widthControl, heightControl, comboBox, false);
-//                    showParticles = true;
-//                    SimulationState state = SimulationInitializer.init(
-//                            width_work,   // ширина окна
-//                            height_work,
-//                            new PointsParameters[]{new PointsParameters(molarMass,    // molar mass (например, азот)
-//                                    temperature,    // температура (например, 25°C)
-//                                    particleCount, Color.GREEN)});
-//
-//                    simulationRunner.start(state);
+                int width_work = ((JSlider) widthControl[0]).getValue();
+                int height_work = ((JSlider) heightControl[0]).getValue();
+                startStopButton.setText("Стоп");
+                running.set(true);
+                toggleControls(gasPropertiesPanels, widthControl, heightControl, false);
+                showParticles = true;
+                SimulationState state = SimulationInitializer.init(
+                        width_work,
+                        height_work, model.points_parameters);
+
+                simulationRunner.start(state);
             } else {
+                toggleControls(gasPropertiesPanels, widthControl, heightControl, true);
                 running.set(false);
                 showParticles = false;
                 startStopButton.setText("Старт");
@@ -121,6 +114,16 @@ public class WorkFrame<Model extends Models> extends JFrame {
         return panel;
     }
 
+    private void toggleControls(GasPropertiesPanel[] gasPropertiesPanels, JComponent[] widthControl, JComponent[] heightControl, boolean b) {
+        for (GasPropertiesPanel gasPropertiesPanel : gasPropertiesPanels) {
+            gasPropertiesPanel.setEnabledAll(b);
+        }
+        widthControl[0].setEnabled(b);
+        heightControl[0].setEnabled(b);
+        widthControl[1].setEnabled(b);
+        heightControl[1].setEnabled(b);
+    }
+
 
     private JPanel createSimulationPanel() {
         JPanel panel = new JPanel() {
@@ -129,7 +132,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
                 g.setColor(Color.WHITE);
                 g.fillRect(xOffset, yOffset, width + radius * 2, height + radius * 2);
                 g.setColor(Color.BLACK);
-                if (showParticles && materialPoints != null) {
+                if (simulationRunner.isRunning() && materialPoints != null) {
                     for (MaterialPoint point : materialPoints) {
                         g.setColor(point.getColor());
                         g.fillOval(point.getX() + xOffset, point.getY() + yOffset, radius * 2, radius * 2);

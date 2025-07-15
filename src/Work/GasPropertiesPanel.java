@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 public class GasPropertiesPanel extends JPanel {
     private final JComboBox<String> comboBox;
@@ -36,18 +37,18 @@ public class GasPropertiesPanel extends JPanel {
 
         // Добавляем панели со слайдерами и спиннерами
         add(makeCombinedLine("Молярная масса г/моль",
-                massSpinner = new JSpinner(new SpinnerNumberModel(100, 1, 1000, 1)),
-                massSlider = new JSlider(0, 1000, 100)));
+                massSpinner = new JSpinner(new SpinnerNumberModel((int) (pp.getMolarMass() * 1000), 1, 1000, 1)),
+                massSlider = new JSlider(0, 1000, (int) (pp.getMolarMass() * 1000))));
         add(Box.createVerticalStrut(10)); // Отступ
 
         add(makeCombinedLine("Температура °C",
-                tempSpinner = new JSpinner(new SpinnerNumberModel(20, -273, 447, 1)),
-                tempSlider = new JSlider(-273, 447, 20)));
+                tempSpinner = new JSpinner(new SpinnerNumberModel(pp.getTemperature(), -273, 447, 1)),
+                tempSlider = new JSlider(-273, 447, pp.getTemperature())));
         add(Box.createVerticalStrut(10)); // Отступ
 
         add(makeCombinedLine("Количество молекул",
-                countSpinner = new JSpinner(new SpinnerNumberModel(50, 0, 200, 1)),
-                countSlider = new JSlider(0, 200, 50)));
+                countSpinner = new JSpinner(new SpinnerNumberModel(pp.getQuantityPoints(), 0, 200, 1)),
+                countSlider = new JSlider(0, 200, pp.getQuantityPoints())));
 
         // Обработчик для JComboBox
         comboBox.addActionListener(e -> {
@@ -58,10 +59,22 @@ public class GasPropertiesPanel extends JPanel {
                 manualMode.set(false);
             }
         });
+        massSlider.addChangeListener(e -> {
+            if (!manualMode.get()) {
+                manualMode.set(true);
+                comboBox.setSelectedIndex(0);
+            }
+        });
 
-        bindSliderAndSpinner(massSlider, massSpinner);
-        bindSliderAndSpinner(tempSlider, tempSpinner);
-        bindSliderAndSpinner(countSlider, countSpinner);
+        massSpinner.addChangeListener(e -> {
+            if (!manualMode.get()) {
+                manualMode.set(true);
+                comboBox.setSelectedIndex(0);
+            }
+        });
+        bindSliderAndSpinner(massSlider, massSpinner, pp::setMolarMass);
+        bindSliderAndSpinner(tempSlider, tempSpinner, pp::setTemperature);
+        bindSliderAndSpinner(countSlider, countSpinner, pp::setQuantityPoints);
     }
 
     private JPanel makeCombinedLine(String label, JSpinner spinner, JSlider slider) {
@@ -90,12 +103,13 @@ public class GasPropertiesPanel extends JPanel {
         return panel;
     }
 
-    private void bindSliderAndSpinner(JSlider slider, JSpinner spinner) {
+    private void bindSliderAndSpinner(JSlider slider, JSpinner spinner, Consumer<Integer> consumer) {
         slider.addChangeListener(e -> {
             if (!manualMode.get()) {
                 manualMode.set(true);
             }
             spinner.setValue(slider.getValue());
+            consumer.accept(slider.getValue());
         });
 
         spinner.addChangeListener(e -> {
@@ -103,6 +117,7 @@ public class GasPropertiesPanel extends JPanel {
                 manualMode.set(true);
             }
             slider.setValue((Integer) spinner.getValue());
+            consumer.accept((Integer) spinner.getValue());
         });
     }
 
