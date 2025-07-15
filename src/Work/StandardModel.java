@@ -39,7 +39,6 @@ public class StandardModel {
             return true;
         };
         DrawFunc draw_func = (Graphics g) -> {
-            g.fillRect(xOffset, yOffset, width + radius * 2, height + radius * 2);
             g.fillRect(xOffset - border, yOffset - border, width + border + radius * 2, border);
             g.fillRect(xOffset - border, yOffset - border, border, height + border + radius * 2);
             g.fillRect(xOffset + width + radius * 2, yOffset - border, border, height + border * 2 + radius * 2);
@@ -58,7 +57,8 @@ public class StandardModel {
                 thawing_func,
                 draw_func,
                 new PointsParameters[]{
-                        new PointsParameters(200, 20, 20, Color.GREEN)
+                        new PointsParameters(200, 20, 20, Color.GREEN),
+                        new PointsParameters(300, 40, 40, Color.BLACK)
                 },
                 height,
                 width

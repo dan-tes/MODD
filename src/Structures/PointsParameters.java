@@ -3,6 +3,11 @@ package Structures;
 import java.awt.*;
 
 public class PointsParameters {
+    int temperature;
+    int quantityPoints;
+    double velocity;
+    Color color;
+
     public int getQuantityPoints() {
         return quantityPoints;
     }
@@ -25,19 +30,16 @@ public class PointsParameters {
         return temperature;
     }
 
-    int temperature;
-    int quantityPoints;
-    double velocity;
-    Color color;
     public Color getColor() {
         return color;
     }
+
     public void setColor(Color color) {
         this.color = color;
     }
-    public PointsParameters(int molarMass, int temperature, int quantityPoints, Color color)
-    {
-        this.molarMass = molarMass/ 1000.0;
+
+    public PointsParameters(int molarMass, int temperature, int quantityPoints, Color color) {
+        this.molarMass = molarMass / 1000.0;
         this.temperature = temperature;
         this.quantityPoints = quantityPoints;
         this.velocity = 5.0 * Math.sqrt((temperature + 273) / this.molarMass);
@@ -49,6 +51,6 @@ public class PointsParameters {
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        this.temperature = temperature + 273;
     }
 }

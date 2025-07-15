@@ -1,12 +1,16 @@
 package Structures;
 
 import Simulation.SimulationState;
+import Work.Models;
 
 import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
+
 
 public class MaterialPoint {
+    private double V;
     double x;
 
     public int getX() {
@@ -31,19 +35,22 @@ public class MaterialPoint {
 
     Color color;
 
-    public MaterialPoint(int Y, int X, Color color) {
+    public MaterialPoint(double vx, double vy,double mass ,  Color color) {
+
         Random random = new Random();
 
         do {
-            this.x = random.nextInt() % X;
+            this.x = random.nextInt() % Models.weight;
         } while(this.x < 0);
 
         do {
-            this.y = random.nextInt() % Y;
+            this.y = random.nextInt() % Models.height;
         } while(this.y < 0);
 
-        this.Xo = this.x;
-        this.Yo = this.y;
+        this.Xo = x;
+        this.Yo = y;
+        this.Vx = vx;
+        this.Vy = vy;
         this.g = random.nextInt(360);
         this.color = color;
     }
@@ -53,10 +60,10 @@ public class MaterialPoint {
     }
 
     public void setTime(double time) {
-        if (time != (double)-1.0F) {
+        if (time != (double) -1.0F) {
             this.time += time;
         } else {
-            this.time = SimulationState.deltaTime / (double)2.0F;
+            this.time = SimulationState.deltaTime / (double) 2.0F;
         }
 
     }
@@ -65,7 +72,7 @@ public class MaterialPoint {
         if (this == o) {
             return true;
         } else if (o != null && this.getClass() == o.getClass()) {
-            MaterialPoint point = (MaterialPoint)o;
+            MaterialPoint point = (MaterialPoint) o;
             return this.x == point.x && this.y == point.y && this.Xo == point.Xo && this.Yo == point.Yo && Double.compare(point.g, this.g) == 0 && Double.compare(point.Vx, this.Vx) == 0 && Double.compare(point.Vy, this.Vy) == 0 && Double.compare(point.time, this.time) == 0;
         } else {
             return false;
@@ -130,5 +137,19 @@ public class MaterialPoint {
 
     public void setG(double g) {
         this.g = g;
+    }
+
+    public void setV(double v) {
+        this.V = v;
+        setVx(Math.cos(getG()) * v);
+        setVy(Math.sin(getG()) * v);
+    }
+
+    public double getV() {
+        return V;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

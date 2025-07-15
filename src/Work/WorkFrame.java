@@ -23,7 +23,6 @@ public class WorkFrame<Model extends Models> extends JFrame {
     private int height = 500;
 
     int border = 15;
-    private boolean showParticles;
     private Vector<MaterialPoint> materialPoints;
 
     public WorkFrame(SimulationRunner simulationRunner, Model model) {
@@ -81,16 +80,14 @@ public class WorkFrame<Model extends Models> extends JFrame {
                 startStopButton.setText("Стоп");
                 running.set(true);
                 toggleControls(gasPropertiesPanels, widthControl, heightControl, false);
-                showParticles = true;
                 SimulationState state = SimulationInitializer.init(
                         width_work,
-                        height_work, model.points_parameters);
+                        height_work, model);
 
                 simulationRunner.start(state);
             } else {
                 toggleControls(gasPropertiesPanels, widthControl, heightControl, true);
                 running.set(false);
-                showParticles = false;
                 startStopButton.setText("Старт");
                 simulationRunner.stop();
                 panelGet.repaint();
@@ -139,6 +136,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
                     }
                 }
                 g.setColor(Color.BLACK);
+                model.draw_func.draw(g);
             }
         };
         panel.setPreferredSize(new Dimension(700, 700));
@@ -150,19 +148,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
         panelGet.repaint();
     }
 
-    private void drawFrame(Graphics g) {
-        g.fillRect(xOffset - border, yOffset - border, width + border + radius * 2, border);
-        g.fillRect(xOffset - border, yOffset - border, border, height + border + radius * 2);
-        g.fillRect(xOffset + width + radius * 2, yOffset - border, border, height + border * 2 + radius * 2);
-        g.fillRect(xOffset - border, yOffset + height + radius * 2, width + border + radius * 2, border);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, xOffset - border, 2000);
-        g.fillRect(xOffset - border, 0, 2000, yOffset - border);
-        g.fillRect(xOffset - border, height + yOffset + radius * 2 + border, 1000, 1000);
-        g.fillRect(xOffset + width + radius * 2 + border, yOffset - border, 1000, 1000);
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 10, 5000);
-    }
+
 
     private JComponent[] createSliderSpinner(JPanel parent, int min, int max, int major, int minor, String labelText, int defaultValue) {
         JPanel panel = new JPanel();

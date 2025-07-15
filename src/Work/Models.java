@@ -7,12 +7,13 @@ import Structures.PointsParameters;
 public class Models {
     static final int xOffset = 70;
     static final int yOffset = 70;
-    int weight, height;
+    public static int weight;
+    public static int height;
     static final int border = 15;
     public static final int radius = 3;
     ThawingFunc thawing_func;
     DrawFunc draw_func;
-    PointsParameters[] points_parameters;
+    public PointsParameters[] points_parameters;
 
     protected Models(ThawingFunc thawing_func, DrawFunc draw_func, PointsParameters[] points_parameters, int weight, int height) {
         this.thawing_func = thawing_func;

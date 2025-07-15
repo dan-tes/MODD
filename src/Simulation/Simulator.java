@@ -27,13 +27,11 @@ public class Simulator {
     }
 
     private void handleElasticCollision(MaterialPoint p1, MaterialPoint p2) {
-
-//
         double dx = p2.getXFloat() - p1.getXFloat();
         double dy = p2.getYFloat() - p1.getYFloat();
         double distSq = dx * dx + dy * dy;
         double radiusSum = radius * 2;
-//
+
         if (distSq < radiusSum * radiusSum) {
 
             double vx1 = p1.getVx(),  vy1 = p1.getVy();

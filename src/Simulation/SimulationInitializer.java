@@ -2,30 +2,42 @@ package Simulation;
 
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
+import Work.Models;
 
+import java.util.Random;
 import java.util.Vector;
 
 public class SimulationInitializer {
-    public static SimulationState init(int width, int height, PointsParameters [] pointsParameters) {
+    public static SimulationState init(int width, int height, Models models) {
         SimulationState state = new SimulationState();
-
-
         state.width = width;
         state.height = height;
-
         state.time = 0.0;
         state.points = new Vector<>();
-        for (PointsParameters pointsParameter : pointsParameters) {
-            state.velocity = 5.0 * Math.sqrt((pointsParameter.getTemperature() + 273) / pointsParameter.getMolarMass());
+        state.quantityPoints = 0;
 
-            for (int j = 0; pointsParameter.getQuantityPoints() > j; ++j) {
-                MaterialPoint point = new MaterialPoint(height, width, pointsParameter.getColor());
-                double angleRad = Math.toRadians(point.getG());
-                point.setVx(Math.cos(angleRad) * state.velocity);
-                point.setVy(Math.sin(angleRad) * state.velocity);
+        Random rand = new Random();
+        double radius = Models.radius; // Радиус молекулы
+
+        for (PointsParameters pointsParameter : models.points_parameters) {
+            double molarMass = pointsParameter.getMolarMass(); // Молярная масса в г/моль
+            double temperature = pointsParameter.getTemperature() + 273; // Температура в Кельвинах
+            int quantity = pointsParameter.getQuantityPoints();
+
+            // Среднеквадратичная скорость (масштабируем для симуляции)
+            double v_rms = Math.sqrt(3 * 8.314 * temperature / (molarMass / 1000)) / 100;
+
+            for (int j = 0; j < quantity; ++j) {
+                // Случайное направление скорости
+                double angle = rand.nextDouble() * 2 * Math.PI;
+                double vx = v_rms * Math.cos(angle);
+                double vy = v_rms * Math.sin(angle);
+
+                // Создание молекулы
+                MaterialPoint point = new MaterialPoint(vx, vy, molarMass, pointsParameter.getColor());
                 state.points.add(point);
             }
-            state.quantityPoints =  pointsParameter.getQuantityPoints();
+            state.quantityPoints += quantity;
         }
 
         return state;
