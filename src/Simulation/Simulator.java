@@ -1,14 +1,17 @@
 package Simulation;
 
 import Structures.MaterialPoint;
+import Work.Models;
 
 import static Work.Models.radius;
 
 public class Simulator {
     private final SimulationState state;
+    Models models;
 
-    public Simulator(SimulationState state) {
+    public Simulator(SimulationState state, Models models) {
         this.state = state;
+        this.models = models;
     }
 
     public void tick() {
@@ -20,7 +23,7 @@ public class Simulator {
                 handleElasticCollision(p1, p2);
             }
 
-            handleWallCollision(p1);
+            models.thawing_func.thaw(p1, models.weight, models.height);
             updatePosition(p1);
             updateDirection(p1);
         }
@@ -55,24 +58,7 @@ public class Simulator {
         return overlap;
     }
 
-    private void handleWallCollision(MaterialPoint p) {
-        if (p.getXFloat() <= 0) {
-            p.setX(0.1);
-            p.setVx(-p.getVx());
-        } else if (p.getXFloat() >= state.width) {
-            p.setX(state.width - 0.1);
-            p.setVx(-p.getVx());
-        }
 
-        if (p.getYFloat() <= 0) {
-            p.setY(0.1);
-            p.setVy(-p.getVy());
-        } else if (p.getYFloat() >= state.height) {
-            p.setY(state.height - 0.1);
-            p.setVy(-p.getVy());
-        }
-
-    }
 
     private void updatePosition(MaterialPoint p) {
         p.setX((p.getXFloat() + p.getVx() * SimulationState.deltaTime));

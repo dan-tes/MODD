@@ -4,5 +4,5 @@ import java.awt.*;
 
 @FunctionalInterface
 public interface DrawFunc {
-    void draw(Graphics g);
+    void draw(Graphics g, int width, int height);
 }

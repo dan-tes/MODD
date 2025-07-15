@@ -10,18 +10,18 @@ import java.awt.*;
 import static Work.Models.*;
 
 public class StandardModel {
-    int width = 500;
-    int height = 500;
+    Integer width = 500;
+    Integer height = 500;
 
     public StandardModel() {
 
-        ThawingFunc thawing_func = (MaterialPoint p) -> {
+        ThawingFunc thawing_func = (MaterialPoint p, int width, int height) -> {
             if (p.getXFloat() <= 0) {
                 p.setX(0.1);
                 p.setVx(-p.getVx());
                 return false;
             }
-            if (p.getXFloat() >= this.width) {
+            if (p.getXFloat() >= width) {
                 p.setX(width - 0.1);
                 p.setVx(-p.getVx());
                 return false;
@@ -38,7 +38,7 @@ public class StandardModel {
             }
             return true;
         };
-        DrawFunc draw_func = (Graphics g) -> {
+        DrawFunc draw_func = (Graphics g, int width, int height) -> {
             g.fillRect(xOffset - border, yOffset - border, width + border + radius * 2, border);
             g.fillRect(xOffset - border, yOffset - border, border, height + border + radius * 2);
             g.fillRect(xOffset + width + radius * 2, yOffset - border, border, height + border * 2 + radius * 2);
@@ -60,8 +60,8 @@ public class StandardModel {
                         new PointsParameters(200, 20, 20, Color.GREEN),
                         new PointsParameters(300, 40, 40, Color.BLACK)
                 },
-                height,
-                width
+                width,
+                height
         );
         new SimulationRunner(modelParametrs);
     }

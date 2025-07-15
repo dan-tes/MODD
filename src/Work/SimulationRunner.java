@@ -41,7 +41,7 @@ public class SimulationRunner<Model extends Models> implements Runnable {
 
     public void start(SimulationState state) {
         this.state = state;
-        simulator = new Simulator(state);
+        simulator = new Simulator(state, model);
         running = true;
         new Thread(this).start();
     }

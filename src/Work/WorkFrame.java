@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import static Work.Models.radius;
 import static Work.Models.xOffset;
@@ -19,9 +20,6 @@ public class WorkFrame<Model extends Models> extends JFrame {
     private final JPanel panelGet;
     private final SimulationRunner simulationRunner;
     private final Model model;
-    private int width = 500;
-    private int height = 500;
-
     int border = 15;
     private Vector<MaterialPoint> materialPoints;
 
@@ -59,9 +57,9 @@ public class WorkFrame<Model extends Models> extends JFrame {
         }
 
         // Width и Height
-        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", 500);
+        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", 500, model::setWeight);
         controlPanel.add(Box.createVerticalStrut(10));
-        JComponent[] heightControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", 500);
+        JComponent[] heightControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", 500, model::setHeight);
 
         // Прокрутка
         JScrollPane scrollPane = new JScrollPane(controlPanel);
@@ -96,12 +94,12 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
         // Обновление размеров
         ((JSlider) widthControl[0]).addChangeListener(e -> {
-            width = ((JSlider) widthControl[0]).getValue();
+            model.weight = ((JSlider) widthControl[0]).getValue();
             repaint();
         });
 
         ((JSlider) heightControl[0]).addChangeListener(e -> {
-            height = ((JSlider) heightControl[0]).getValue();
+            model.height = ((JSlider) heightControl[0]).getValue();
             repaint();
         });
 
@@ -127,7 +125,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(Color.WHITE);
-                g.fillRect(xOffset, yOffset, width + radius * 2, height + radius * 2);
+                g.fillRect(xOffset, yOffset, model.weight + radius * 2, model.height + radius * 2);
                 g.setColor(Color.BLACK);
                 if (simulationRunner.isRunning() && materialPoints != null) {
                     for (MaterialPoint point : materialPoints) {
@@ -136,7 +134,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
                     }
                 }
                 g.setColor(Color.BLACK);
-                model.draw_func.draw(g);
+                model.draw_func.draw(g, model.weight, model.height);
             }
         };
         panel.setPreferredSize(new Dimension(700, 700));
@@ -150,7 +148,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
 
 
-    private JComponent[] createSliderSpinner(JPanel parent, int min, int max, int major, int minor, String labelText, int defaultValue) {
+    private JComponent[] createSliderSpinner(JPanel parent, int min, int max, int major, int minor, String labelText, int defaultValue, Consumer<Integer> consumer) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -183,11 +181,13 @@ public class WorkFrame<Model extends Models> extends JFrame {
         slider.addChangeListener(e -> {
             int val = slider.getValue();
             spinner.setValue(Math.max(min, Math.min(max, val)));
+            consumer.accept(slider.getValue());
         });
 
         spinner.addChangeListener(e -> {
             int val = (Integer) spinner.getValue();
             slider.setValue(Math.max(min, Math.min(max, val)));
+            consumer.accept(slider.getValue());
         });
 
         panel.add(slider);

@@ -6,7 +6,6 @@ import Work.Models;
 import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Scanner;
 
 
 public class MaterialPoint {
@@ -35,16 +34,16 @@ public class MaterialPoint {
 
     Color color;
 
-    public MaterialPoint(double vx, double vy,double mass ,  Color color) {
+    public MaterialPoint(double vx, double vy, double mass , Color color, int width, int height) {
 
         Random random = new Random();
 
         do {
-            this.x = random.nextInt() % Models.weight;
+            this.x = random.nextInt() % width;
         } while(this.x < 0);
 
         do {
-            this.y = random.nextInt() % Models.height;
+            this.y = random.nextInt() % height;
         } while(this.y < 0);
 
         this.Xo = x;

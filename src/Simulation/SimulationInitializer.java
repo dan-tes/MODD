@@ -34,7 +34,7 @@ public class SimulationInitializer {
                 double vy = v_rms * Math.sin(angle);
 
                 // Создание молекулы
-                MaterialPoint point = new MaterialPoint(vx, vy, molarMass, pointsParameter.getColor());
+                MaterialPoint point = new MaterialPoint(vx, vy, molarMass, pointsParameter.getColor(), width, height);
                 state.points.add(point);
             }
             state.quantityPoints += quantity;
