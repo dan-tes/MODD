@@ -1,17 +1,18 @@
 package Work;
 
 import Simulation.DrawFunc;
-import Simulation.ModelParametrs;
-import Simulation.Simulator;
 import Simulation.ThawingFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 
 import java.awt.*;
 
-public class StandardModel extends Models {
+import static Work.Models.*;
+
+public class StandardModel {
     int width = 500;
     int height = 500;
+
     public StandardModel() {
 
         ThawingFunc thawing_func = (MaterialPoint p) -> {
@@ -53,12 +54,12 @@ public class StandardModel extends Models {
         };
 
 
-        ModelParametrs modelParametrs = new ModelParametrs(
+        Models modelParametrs = new Models(
+                thawing_func,
+                draw_func,
                 new PointsParameters[]{
                         new PointsParameters(200, 20, 20, Color.GREEN)
                 },
-                thawing_func,
-                draw_func,
                 height,
                 width
         );

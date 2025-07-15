@@ -1,5 +1,7 @@
 package Work;
 
+import Structures.PointsParameters;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
@@ -12,10 +14,10 @@ public class GasPropertiesPanel extends JPanel {
     private final JSpinner massSpinner, tempSpinner, countSpinner;
     private final AtomicBoolean manualMode = new AtomicBoolean(true);
 
-    public GasPropertiesPanel() {
+    public GasPropertiesPanel(PointsParameters pp) {
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.CENTER_ALIGNMENT);
-        setBackground(Color.RED);
         // Устанавливаем максимальную ширину панели
 
         // Сканируем вещества

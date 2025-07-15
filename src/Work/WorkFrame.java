@@ -10,7 +10,9 @@ import java.awt.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static Simulation.SimulationState.radius;
+import static Work.Models.radius;
+import static Work.Models.xOffset;
+import static Work.Models.yOffset;
 
 public class WorkFrame<Model extends Models> extends JFrame {
     private final JPanel panelSet;
@@ -20,8 +22,6 @@ public class WorkFrame<Model extends Models> extends JFrame {
     private int width = 500;
     private int height = 500;
 
-    private final int xOffset = 80;
-    private final int yOffset = 80;
     int border = 15;
     private boolean showParticles;
     private Vector<MaterialPoint> materialPoints;
@@ -45,20 +45,19 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(300, 700));
+        panel.setPreferredSize(new Dimension(330, 700));
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        controlPanel.setBackground(Color.WHITE);
 
-        // GasPropertiesPanel
-        GasPropertiesPanel gasPropertiesPanel = new GasPropertiesPanel();
+        for (PointsParameters pp: this.model.points_parameters){
+        GasPropertiesPanel gasPropertiesPanel = new GasPropertiesPanel(pp);
         gasPropertiesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         gasPropertiesPanel.setMaximumSize(new Dimension(300, gasPropertiesPanel.getPreferredSize().height));
         controlPanel.add(gasPropertiesPanel);
 
-        controlPanel.add(Box.createVerticalStrut(10));
+        controlPanel.add(Box.createVerticalStrut(10));}
 
         // Width и Height
         JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", 500);
@@ -67,7 +66,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
         // Прокрутка
         JScrollPane scrollPane = new JScrollPane(controlPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(null);
 
@@ -166,12 +165,10 @@ public class WorkFrame<Model extends Models> extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.setBackground(Color.WHITE);
         panel.setMaximumSize(new Dimension(300, 100));
 
         // Верхняя панель: метка + спиннер
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topPanel.setBackground(Color.WHITE);
         topPanel.setMaximumSize(new Dimension(300, 30));
         topPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 

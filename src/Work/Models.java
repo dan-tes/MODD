@@ -1,19 +1,25 @@
 package Work;
 
 import Simulation.DrawFunc;
-import Simulation.ModelParametrs;
 import Simulation.ThawingFunc;
-import Structures.MaterialPoint;
 import Structures.PointsParameters;
 
-import java.awt.*;
-
-import static Simulation.SimulationState.radius;
-
 public class Models {
-    final int xOffset = 80;
-    final int yOffset = 80;
-    int border = 15;
-    final int radius = 3;
+    static final int xOffset = 70;
+    static final int yOffset = 70;
+    int weight, height;
+    static final int border = 15;
+    public static final int radius = 3;
+    ThawingFunc thawing_func;
+    DrawFunc draw_func;
+    PointsParameters[] points_parameters;
+
+    protected Models(ThawingFunc thawing_func, DrawFunc draw_func, PointsParameters[] points_parameters, int weight, int height) {
+        this.thawing_func = thawing_func;
+        this.draw_func = draw_func;
+        this.points_parameters = points_parameters;
+        this.weight = weight;
+        this.height = height;
+    }
 }
 

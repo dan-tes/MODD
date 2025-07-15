@@ -2,6 +2,8 @@ package Simulation;
 
 import Structures.MaterialPoint;
 
+import static Work.Models.radius;
+
 public class Simulator {
     private final SimulationState state;
 
@@ -30,7 +32,7 @@ public class Simulator {
         double dx = p2.getXFloat() - p1.getXFloat();
         double dy = p2.getYFloat() - p1.getYFloat();
         double distSq = dx * dx + dy * dy;
-        double radiusSum = SimulationState.radius * 2;
+        double radiusSum = radius * 2;
 //
         if (distSq < radiusSum * radiusSum) {
 
