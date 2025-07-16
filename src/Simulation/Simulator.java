@@ -69,14 +69,6 @@ public class Simulator {
     }
 
 
-    private static double getOverlap(double distSq, double radiusSum) {
-        double dist = Math.sqrt(distSq);
-        if (dist == 0) dist = 0.001;
-        double overlap = (radiusSum - dist);
-        return overlap;
-    }
-
-
     private void updatePosition(MaterialPoint p) {
         p.setX((p.getXFloat() + p.getVx() * SimulationState.deltaTime));
         p.setY((p.getYFloat() - p.getVy() * SimulationState.deltaTime));
