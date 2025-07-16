@@ -1,6 +1,7 @@
-package Work;
+package Graphics;
 
 import Simulation.SimulationInitializer;
+import Simulation.SimulationRunner;
 import Simulation.SimulationState;
 import Structures.MaterialPoint;
 

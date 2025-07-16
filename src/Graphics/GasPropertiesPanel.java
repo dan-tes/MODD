@@ -1,4 +1,4 @@
-package Work;
+package Graphics;
 
 import Structures.PointsParameters;
 

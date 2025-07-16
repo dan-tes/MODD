@@ -1,8 +1,8 @@
-package Work;
+package Simulation;
 
-import Simulation.*;
 import Structures.MaterialPoint;
 import Model.Models;
+import Graphics.WorkFrame;
 
 import java.util.Vector;
 

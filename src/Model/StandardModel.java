@@ -5,7 +5,7 @@ import Simulation.SpawnFunc;
 import Simulation.ThawingFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
-import Work.SimulationRunner;
+import Simulation.SimulationRunner;
 
 import java.awt.*;
 
