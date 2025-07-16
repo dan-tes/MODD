@@ -36,20 +36,38 @@ public class Simulator {
         double radiusSum = radius * 2;
 
         if (distSq < radiusSum * radiusSum) {
+            double distance = Math.sqrt(distSq);
+            if (distance == 0) distance = 0.01;  // во избежание деления на 0
 
-            double vx1 = p1.getVx(),  vy1 = p1.getVy();
-            p1.setVx(p2.getVx());
-            p1.setVy(p2.getVy());
-            p2.setVx(vx1);
-            p2.setVy(vy1);
+            // Нормализованный вектор столкновения
+            double nx = dx / distance;
+            double ny = dy / distance;
 
-            double overlap = getOverlap(distSq, radiusSum);
-            p1.setX((p1.getXFloat() - overlap));
-            p1.setY((p1.getYFloat() + overlap));
-            p2.setX((p2.getXFloat() + overlap));
-            p2.setY((p2.getYFloat() - overlap));
+            double vxRel = p1.getVx() - p2.getVx();
+            double vyRel = p1.getVy() - p2.getVy();
+            double velAlongNormal = vxRel * nx + vyRel * ny;
+
+            if (velAlongNormal > 0) return;
+
+            double m1 = p1.mass;
+            double m2 = p2.mass;
+
+            double impulse = (2 * velAlongNormal) / (m1 + m2);
+
+            p1.setVx(p1.getVx() - impulse * m2 * nx);
+            p1.setVy(p1.getVy() - impulse * m2 * ny);
+            p2.setVx(p2.getVx() + impulse * m1 * nx);
+            p2.setVy(p2.getVy() + impulse * m1 * ny);
+
+            double overlap = radiusSum - distance;
+            double correctionRatio = 0.5;
+            p1.setX(p1.getXFloat() - nx * overlap * correctionRatio);
+            p1.setY(p1.getYFloat() - ny * overlap * correctionRatio);
+            p2.setX(p2.getXFloat() + nx * overlap * (1 - correctionRatio));
+            p2.setY(p2.getYFloat() + ny * overlap * (1 - correctionRatio));
         }
     }
+
 
     private static double getOverlap(double distSq, double radiusSum) {
         double dist = Math.sqrt(distSq);
@@ -57,7 +75,6 @@ public class Simulator {
         double overlap = (radiusSum - dist);
         return overlap;
     }
-
 
 
     private void updatePosition(MaterialPoint p) {

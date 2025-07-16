@@ -105,16 +105,14 @@ public class GasPropertiesPanel extends JPanel {
 
     private void bindSliderAndSpinner(JSlider slider, JSpinner spinner, Consumer<Integer> consumer) {
         slider.addChangeListener(e -> {
-            if (!manualMode.get()) {
-                manualMode.set(true);
-            }
+
             spinner.setValue(slider.getValue());
             consumer.accept(slider.getValue());
         });
 
         spinner.addChangeListener(e -> {
-            if (!manualMode.get()) {
-                manualMode.set(true);
+            if (slider.getMaximum() >= (int) spinner.getValue() && (int) spinner.getValue() >= slider.getMinimum()) {
+                spinner.setValue(slider.getValue());
             }
             slider.setValue((Integer) spinner.getValue());
             consumer.accept((Integer) spinner.getValue());

@@ -11,6 +11,7 @@ import java.util.Random;
 public class MaterialPoint {
     private double V;
     double x;
+    public double mass;
 
     public int getX() {
         return (int) x;
@@ -52,6 +53,7 @@ public class MaterialPoint {
         this.Vy = vy;
         this.g = random.nextInt(360);
         this.color = color;
+        this.mass = mass;
     }
 
     public double getTime() {
