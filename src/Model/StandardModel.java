@@ -1,14 +1,15 @@
-package Work;
+package Model;
 
 import Simulation.DrawFunc;
 import Simulation.SpawnFunc;
 import Simulation.ThawingFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
+import Work.SimulationRunner;
 
 import java.awt.*;
 
-import static Work.Models.*;
+import static Model.Models.*;
 
 public class StandardModel {
     Integer width = 500;

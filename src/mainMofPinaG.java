@@ -1,4 +1,4 @@
-import Work.StandardModel;
+import Model.StandardModel;
 
 
 public class mainMofPinaG {

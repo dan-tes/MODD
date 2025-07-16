@@ -1,12 +1,12 @@
-package Work;
+package Model;
 
 import Simulation.DrawFunc;
 import Simulation.ThawingFunc;
 import Structures.PointsParameters;
 
 public class Models {
-    static final int xOffset = 70;
-    static final int yOffset = 70;
+    public static final int xOffset = 70;
+    public static final int yOffset = 70;
 
     public void setWeight(int weight) {
         this.weight = weight;

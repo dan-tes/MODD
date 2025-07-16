@@ -3,24 +3,21 @@ package Work;
 import Simulation.SimulationInitializer;
 import Simulation.SimulationState;
 import Structures.MaterialPoint;
-import Structures.PointsParameters;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import Model.Models;
 
-import static Work.Models.radius;
-import static Work.Models.xOffset;
-import static Work.Models.yOffset;
+import static Model.Models.*;
 
 public class WorkFrame<Model extends Models> extends JFrame {
     private final JPanel panelSet;
     private final JPanel panelGet;
     private final SimulationRunner simulationRunner;
     private final Model model;
-    int border = 15;
     private Vector<MaterialPoint> materialPoints;
 
     public WorkFrame(SimulationRunner simulationRunner, Model model) {

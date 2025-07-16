@@ -2,7 +2,7 @@ package Simulation;
 
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
-import Work.Models;
+import Model.Models;
 
 import java.util.Random;
 import java.util.Vector;

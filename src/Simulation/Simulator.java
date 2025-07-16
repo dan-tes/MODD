@@ -1,9 +1,9 @@
 package Simulation;
 
 import Structures.MaterialPoint;
-import Work.Models;
+import Model.Models;
 
-import static Work.Models.radius;
+import static Model.Models.radius;
 
 public class Simulator {
     private final SimulationState state;
