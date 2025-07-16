@@ -1,6 +1,7 @@
 package Work;
 
 import Simulation.DrawFunc;
+import Simulation.SpawnFunc;
 import Simulation.ThawingFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
@@ -51,14 +52,24 @@ public class StandardModel {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, 10, 5000);
         };
-
-
+        SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
+//            double x = (double) point.getX() / width, y = (double) point.getY() / height;
+//            return x < 0.5 && y < 1;
+//            return false;
+            return true;
+        };
+        SpawnFunc spawnFunc2 = (MaterialPoint point, int width, int height) -> {
+//            double x = (double) point.getX() / width, y = (double) point.getY() / height;
+//            return 0.5 < x && x < 0.7 && 0.1 < y && y < 1;
+//            return false;
+            return true;
+        };
         Models modelParametrs = new Models(
                 thawing_func,
                 draw_func,
                 new PointsParameters[]{
-                        new PointsParameters(200, 20, 20, Color.GREEN),
-                        new PointsParameters(300, 40, 40, Color.BLACK)
+                        new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1),
+                        new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2)
                 },
                 width,
                 height

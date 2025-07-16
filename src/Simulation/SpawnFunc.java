@@ -3,7 +3,7 @@ package Simulation;
 import Structures.MaterialPoint;
 
 @FunctionalInterface
-public interface ThawingFunc {
+public interface SpawnFunc {
     boolean thaw(MaterialPoint p,  int width, int height);
 }
 

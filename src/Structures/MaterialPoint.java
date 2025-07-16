@@ -1,7 +1,7 @@
 package Structures;
 
 import Simulation.SimulationState;
-import Work.Models;
+import Simulation.SpawnFunc;
 
 import java.awt.*;
 import java.util.Objects;
@@ -19,17 +19,14 @@ public class MaterialPoint {
     double time = 0.0F;
     Color color;
 
-    public MaterialPoint(double vx, double vy, double mass, Color color, int width, int height) {
+    public MaterialPoint(double vx, double vy, double mass, Color color, int width, int height, SpawnFunc spawnFunc) {
 
         Random random = new Random();
 
         do {
             this.x = random.nextInt() % width;
-        } while (this.x < 0);
-
-        do {
             this.y = random.nextInt() % height;
-        } while (this.y < 0);
+        } while (!(x > 0 && y > 0 && x < width && y < height && spawnFunc.thaw(this, width, height)));
 
         this.Vx = vx;
         this.Vy = vy;
