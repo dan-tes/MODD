@@ -12,20 +12,28 @@ public class PointsParameters {
     Color color;
     double molarMass;
     SpawnFunc spawnFunc;
+    short type;
 
-    public PointsParameters(int molarMass, int temperature, int quantityPoints, Color color, SpawnFunc spawnFunc) {
+    public PointsParameters(int molarMass, int temperature, int quantityPoints, Color color, SpawnFunc spawnFunc, int type) {
         this.molarMass = molarMass / 1000.0;
         this.temperature = temperature;
         this.quantityPoints = quantityPoints;
         this.velocity = 5.0 * Math.sqrt((temperature + 273) / this.molarMass);
         this.color = color;
         this.spawnFunc = spawnFunc;
+        this.type = (short) type;
     }
+
     public SpawnFunc getSpawnFunc() {
         return spawnFunc;
     }
+
     public int getQuantityPoints() {
         return quantityPoints;
+    }
+
+    public short getType() {
+        return type;
     }
 
     public void setQuantityPoints(int quantityPoints) {

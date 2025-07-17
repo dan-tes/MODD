@@ -1,26 +1,24 @@
-package Work;
+package Graphics;
 
 import Simulation.SimulationInitializer;
+import Simulation.SimulationRunner;
 import Simulation.SimulationState;
 import Structures.MaterialPoint;
-import Structures.PointsParameters;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import Model.Models;
 
-import static Work.Models.radius;
-import static Work.Models.xOffset;
-import static Work.Models.yOffset;
+import static Model.Models.*;
 
 public class WorkFrame<Model extends Models> extends JFrame {
     private final JPanel panelSet;
     private final JPanel panelGet;
     private final SimulationRunner simulationRunner;
     private final Model model;
-    int border = 15;
     private Vector<MaterialPoint> materialPoints;
 
     public WorkFrame(SimulationRunner simulationRunner, Model model) {
@@ -47,9 +45,9 @@ public class WorkFrame<Model extends Models> extends JFrame {
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        GasPropertiesPanel[] gasPropertiesPanels = new GasPropertiesPanel[this.model.points_parameters.length];
-        for (int i = 0; i < this.model.points_parameters.length; i++) {
-            gasPropertiesPanels[i] = new GasPropertiesPanel(this.model.points_parameters[i]);
+        GasPropertiesPanel[] gasPropertiesPanels = new GasPropertiesPanel[this.model.getPointsParameters().length];
+        for (int i = 0; i < this.model.getPointsParameters().length; i++) {
+            gasPropertiesPanels[i] = new GasPropertiesPanel(this.model.getPointsParameters()[i]);
             gasPropertiesPanels[i].setAlignmentX(Component.LEFT_ALIGNMENT);
             gasPropertiesPanels[i].setMaximumSize(new Dimension(300, gasPropertiesPanels[i].getPreferredSize().height));
             controlPanel.add(gasPropertiesPanels[i]);
@@ -57,9 +55,9 @@ public class WorkFrame<Model extends Models> extends JFrame {
         }
 
         // Width и Height
-        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", 500, model::setWeight);
+        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", model.getWeight(), model::setWeight);
         controlPanel.add(Box.createVerticalStrut(10));
-        JComponent[] heightControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", 500, model::setHeight);
+        JComponent[] heightControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", model.getHeight(), model::setHeight);
 
         // Прокрутка
         JScrollPane scrollPane = new JScrollPane(controlPanel);
@@ -94,12 +92,12 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
         // Обновление размеров
         ((JSlider) widthControl[0]).addChangeListener(e -> {
-            model.weight = ((JSlider) widthControl[0]).getValue();
+            model.setWeight(((JSlider) widthControl[0]).getValue());
             repaint();
         });
 
         ((JSlider) heightControl[0]).addChangeListener(e -> {
-            model.height = ((JSlider) heightControl[0]).getValue();
+            model.setHeight(((JSlider) heightControl[0]).getValue());
             repaint();
         });
 
@@ -124,17 +122,13 @@ public class WorkFrame<Model extends Models> extends JFrame {
         JPanel panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.setColor(Color.WHITE);
-                g.fillRect(xOffset, yOffset, model.weight + radius * 2, model.height + radius * 2);
-                g.setColor(Color.BLACK);
+                model.getDrawFunc().draw(g, model.getWeight(), model.getHeight());
                 if (simulationRunner.isRunning() && materialPoints != null) {
                     for (MaterialPoint point : materialPoints) {
                         g.setColor(point.getColor());
                         g.fillOval(point.getX() + xOffset, point.getY() + yOffset, radius * 2, radius * 2);
                     }
                 }
-                g.setColor(Color.BLACK);
-                model.draw_func.draw(g, model.weight, model.height);
             }
         };
         panel.setPreferredSize(new Dimension(700, 700));

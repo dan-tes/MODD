@@ -18,8 +18,9 @@ public class MaterialPoint {
     double Vy;
     double time = 0.0F;
     Color color;
+    short type;
 
-    public MaterialPoint(double vx, double vy, double mass, Color color, int width, int height, SpawnFunc spawnFunc) {
+    public MaterialPoint(double vx, double vy, double mass, Color color, int width, int height, SpawnFunc spawnFunc, short type) {
 
         Random random = new Random();
 
@@ -33,6 +34,7 @@ public class MaterialPoint {
         this.g = random.nextInt(360);
         this.color = color;
         this.mass = mass;
+        this.type = type;
     }
 
     public int getX() {
@@ -58,6 +60,9 @@ public class MaterialPoint {
             this.time = SimulationState.deltaTime / (double) 2.0F;
         }
 
+    }
+    public short getType() {
+        return type;
     }
 
     public boolean equals(Object o) {
