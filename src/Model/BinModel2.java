@@ -8,10 +8,8 @@ import Structures.PointsParameters;
 
 import java.awt.*;
 
-public class BinModel extends Models {
-
-
-    public BinModel() {
+public class BinModel2 extends Models {
+    public BinModel2() {
         SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
             double x = (double) point.getX() / width, y = (double) point.getY() / height;
             return x < 0.45;
@@ -20,7 +18,10 @@ public class BinModel extends Models {
             double x = (double) point.getX() / width, y = (double) point.getY() / height;
             return x > 0.55;
         };
-        super(200, 300, new PointsParameters[]{new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0), new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 1)});
+        super(200, 300, new PointsParameters[]{
+                new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
+                new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 1)
+        });
     }
 
     @Override
@@ -46,14 +47,11 @@ public class BinModel extends Models {
                 p.setVy(-p.getVy());
                 return false;
             }
-            if (p.getType() == 1) {
-                if (p.getXFloat() <= (double) width / 2 + (double) border / 2) {
-                    p.setX((double) width / 2 - 0.1 + (double) border / 2);
-                    p.setVx(-p.getVx());
-                    return false;
-                }
-
+            if (p.getXFloat() <= (double) width / 2 + (double) border / 2 && p.getVx() < 0) {
+                p.setVx(-p.getVx());
+                return false;
             }
+
             return true;
         };
     }
@@ -77,6 +75,6 @@ public class BinModel extends Models {
 
     @Override
     public String getDescription() {
-        return "Двойная моделька";
+        return "Двойная моделька 2";
     }
 }
