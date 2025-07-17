@@ -57,16 +57,14 @@ public class StandardModel extends Models {
         return true;
     };
 
-    private final PointsParameters[] points_parameters = {
-            new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
-            new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 0)
-    };
-
     private final String description = "Основная моделька";
 
     public StandardModel() {
-        this.weight = 500;
-        this.height = 500;
+        PointsParameters[] points_parameters = {
+                new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
+                new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 0)
+        };
+        super(500, 500, points_parameters);
     }
 
     @Override
@@ -77,11 +75,6 @@ public class StandardModel extends Models {
     @Override
     public DrawFunc getDrawFunc() {
         return draw_func;
-    }
-
-    @Override
-    public PointsParameters[] getPointsParameters() {
-        return points_parameters;
     }
 
     @Override

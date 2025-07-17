@@ -13,11 +13,23 @@ public abstract class Models {
 
     protected int weight;
     protected int height;
+    protected PointsParameters[] pointsParameters;
 
     public abstract ThawingFunc getThawingFunc();
+
     public abstract DrawFunc getDrawFunc();
-    public abstract PointsParameters[] getPointsParameters();
+
     public abstract String getDescription();
+
+    Models(int weight, int height, PointsParameters[] pointsParameters) {
+        this.weight = weight;
+        this.height = height;
+        this.pointsParameters = pointsParameters;
+    }
+
+    public PointsParameters[] getPointsParameters() {
+        return pointsParameters;
+    }
 
     public int getWeight() {
         return weight;
