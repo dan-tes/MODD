@@ -5,31 +5,26 @@ import Simulation.SimulationRunner;
 import Simulation.ThawingFunc;
 import Structures.PointsParameters;
 
-import java.util.Objects;
-
-public  class Models {
+public abstract class Models {
     public static final int xOffset = 70;
     public static final int yOffset = 70;
-    public int weight;
-    public int height;
-    static final int border = 15;
+    public static final int border = 15;
     public static final int radius = 3;
-    public ThawingFunc thawing_func;
-    public DrawFunc draw_func;
-    public PointsParameters[] points_parameters;
-    String description;
 
-    protected Models(Object thawing_func, DrawFunc draw_func, PointsParameters[] points_parameters, int weight, int height, String description) {
-        this.thawing_func = (ThawingFunc) thawing_func;
-        this.draw_func = draw_func;
-        this.points_parameters = points_parameters;
-        this.weight = weight;
-        this.height = height;
-        this.description = description;
+    protected int weight;
+    protected int height;
+
+    public abstract ThawingFunc getThawingFunc();
+    public abstract DrawFunc getDrawFunc();
+    public abstract PointsParameters[] getPointsParameters();
+    public abstract String getDescription();
+
+    public int getWeight() {
+        return weight;
     }
 
-    public Models() {
-
+    public int getHeight() {
+        return height;
     }
 
     public void setWeight(int weight) {
@@ -40,11 +35,7 @@ public  class Models {
         this.height = height;
     }
 
-    public String getDescription() {
-        return description;
-    }
-    public void run(){
+    public void run() {
         new SimulationRunner(this);
     }
 }
-

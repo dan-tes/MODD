@@ -17,9 +17,7 @@ public class SimulationInitializer {
         state.quantityPoints = 0;
 
         Random rand = new Random();
-        double radius = Models.radius; // Радиус молекулы
-
-        for (PointsParameters pointsParameter : models.points_parameters) {
+        for (PointsParameters pointsParameter : models.getPointsParameters()) {
             double molarMass = pointsParameter.getMolarMass(); // Молярная масса в г/моль
             double temperature = pointsParameter.getTemperature() + 273; // Температура в Кельвинах
             int quantity = pointsParameter.getQuantityPoints();
@@ -34,7 +32,8 @@ public class SimulationInitializer {
                 double vy = v_rms * Math.sin(angle);
 
                 // Создание молекулы
-                MaterialPoint point = new MaterialPoint(vx, vy, molarMass, pointsParameter.getColor(), width, height, pointsParameter.getSpawnFunc());
+                MaterialPoint point = new MaterialPoint(vx, vy, molarMass, pointsParameter.getColor(),
+                        width, height, pointsParameter.getSpawnFunc(), pointsParameter.getType());
                 state.points.add(point);
             }
             state.quantityPoints += quantity;

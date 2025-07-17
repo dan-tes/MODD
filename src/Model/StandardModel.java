@@ -9,7 +9,9 @@ import Structures.PointsParameters;
 import java.awt.*;
 
 public class StandardModel extends Models {
-    static DrawFunc draw_func = (Graphics g, int width, int height) -> {
+
+    private static DrawFunc draw_func = (Graphics g, int width, int height) -> {
+        g.setColor(Color.BLACK);
         g.fillRect(xOffset - border, yOffset - border, width + border + radius * 2, border);
         g.fillRect(xOffset - border, yOffset - border, border, height + border + radius * 2);
         g.fillRect(xOffset + width + radius * 2, yOffset - border, border, height + border * 2 + radius * 2);
@@ -22,19 +24,16 @@ public class StandardModel extends Models {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 10, 5000);
     };
-    static SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
-//            double x = (double) point.getX() / width, y = (double) point.getY() / height;
-//            return x < 0.5 && y < 1;
-//            return false;
+
+    private static final SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
         return true;
     };
-    static SpawnFunc spawnFunc2 = (MaterialPoint point, int width, int height) -> {
-//            double x = (double) point.getX() / width, y = (double) point.getY() / height;
-//            return 0.5 < x && x < 0.7 && 0.1 < y && y < 1;
-//            return false;
+
+    private static final SpawnFunc spawnFunc2 = (MaterialPoint point, int width, int height) -> {
         return true;
     };
-    static ThawingFunc thawing_funcd = (MaterialPoint p, int width, int height) -> {
+
+    private static ThawingFunc thawing_func = (MaterialPoint p, int width, int height) -> {
         if (p.getXFloat() <= 0) {
             p.setX(0.1);
             p.setVx(-p.getVx());
@@ -58,18 +57,35 @@ public class StandardModel extends Models {
         return true;
     };
 
-    public StandardModel() {
+    private final PointsParameters[] points_parameters = {
+            new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
+            new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 0)
+    };
 
-        super(
-                thawing_funcd,
-                draw_func,
-                new PointsParameters[]{
-                        new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1),
-                        new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2)
-                },
-                500,
-                500, "Основная моделька"
-        );
+    private final String description = "Основная моделька";
+
+    public StandardModel() {
+        this.weight = 500;
+        this.height = 500;
     }
 
+    @Override
+    public ThawingFunc getThawingFunc() {
+        return thawing_func;
+    }
+
+    @Override
+    public DrawFunc getDrawFunc() {
+        return draw_func;
+    }
+
+    @Override
+    public PointsParameters[] getPointsParameters() {
+        return points_parameters;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
 }

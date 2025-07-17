@@ -30,6 +30,7 @@ public class ChoiceFrame<Model extends Models> extends JFrame {
             ModelPanel<Model> mPanel = new ModelPanel(m, this);
             mPanel.setBackground(Color.GREEN);
             add(mPanel, c);
+            c.gridx+=2;
         }
         setSize(new Dimension(1000, 700));
         setVisible(true);

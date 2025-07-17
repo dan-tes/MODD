@@ -23,7 +23,7 @@ public class Simulator {
                 handleElasticCollision(p1, p2);
             }
 
-            models.thawing_func.thaw(p1, models.weight, models.height);
+            models.getThawingFunc().thaw(p1, models.getWeight(), models.getHeight());
             updatePosition(p1);
             updateDirection(p1);
         }
