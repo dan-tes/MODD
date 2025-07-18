@@ -1,5 +1,6 @@
 package Graphics;
 
+import Simulation.DrawFunc;
 import Simulation.SimulationInitializer;
 import Simulation.SimulationRunner;
 import Simulation.SimulationState;
@@ -122,7 +123,8 @@ public class WorkFrame<Model extends Models> extends JFrame {
         JPanel panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                model.getDrawFunc().draw(g, model.getWeight(), model.getHeight());
+                for (DrawFunc func : model.getDrawFunc())
+                    func.draw(g, model.getWeight(), model.getHeight());
                 if (simulationRunner.isRunning() && materialPoints != null) {
                     for (MaterialPoint point : materialPoints) {
                         g.setColor(point.getColor());

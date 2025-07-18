@@ -25,8 +25,8 @@ public class BinModel2 extends Models {
     }
 
     @Override
-    public ThawingFunc getThawingFunc() {
-        return (MaterialPoint p, int width, int height) -> {
+    public ThawingFunc[] getThawingFunc() {
+        return new ThawingFunc[]{(MaterialPoint p, int width, int height) -> {
             if (p.getXFloat() <= 0) {
                 p.setX(0.1);
                 p.setVx(-p.getVx());
@@ -53,12 +53,12 @@ public class BinModel2 extends Models {
             }
 
             return true;
-        };
+        }};
     }
 
     @Override
-    public DrawFunc getDrawFunc() {
-        return (Graphics g, int width, int height1) -> {
+    public DrawFunc[] getDrawFunc() {
+        return new DrawFunc[]{(Graphics g, int width, int height1) -> {
             g.setColor(Color.WHITE);
             width /= 2;
             g.fillRect(0, 0, 5000, 5000);
@@ -70,7 +70,7 @@ public class BinModel2 extends Models {
             g.setColor(Color.RED);
             g.fillRect((xOffset + width + radius * 2 - border * 2) + border, yOffset, border, height1 + radius * 2);
 
-        };
+        }};
     }
 
     @Override

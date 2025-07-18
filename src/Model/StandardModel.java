@@ -68,13 +68,13 @@ public class StandardModel extends Models {
     }
 
     @Override
-    public ThawingFunc getThawingFunc() {
-        return thawing_func;
+    public ThawingFunc[] getThawingFunc() {
+        return new ThawingFunc[]{thawing_func};
     }
 
     @Override
-    public DrawFunc getDrawFunc() {
-        return draw_func;
+    public DrawFunc[] getDrawFunc() {
+        return new DrawFunc[] {draw_func} ;
     }
 
     @Override
