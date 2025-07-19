@@ -34,6 +34,7 @@ public class SimulationInitializer {
                 // Создание молекулы
                 MaterialPoint point = new MaterialPoint(vx, vy, molarMass, pointsParameter.getColor(),
                         width, height, pointsParameter.getSpawnFunc(), pointsParameter.getType());
+                pointsParameter.addPoint(point);
                 state.points.add(point);
             }
             state.quantityPoints += quantity;

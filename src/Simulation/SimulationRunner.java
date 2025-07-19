@@ -49,6 +49,10 @@ public class SimulationRunner<Model extends Models> implements Runnable {
 
     public void stop() {
         running = false;
+        try {
+            model.getPiston().stop();
+        } catch (Exception ex) {
+        }
     }
 
     public Vector<MaterialPoint> getPoints() {

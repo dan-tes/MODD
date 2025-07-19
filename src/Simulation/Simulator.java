@@ -2,6 +2,7 @@ package Simulation;
 
 import Structures.MaterialPoint;
 import Model.Models;
+import Structures.PointsParameters;
 
 import static Model.Models.radius;
 
@@ -27,6 +28,15 @@ public class Simulator {
                 func.thaw(p1, models.getWeight(), models.getHeight());
             updatePosition(p1);
             updateDirection(p1);
+        }
+        for (PointsParameters parameters :models.getPointsParameters()){
+            double v_average = 0;
+            for (MaterialPoint p1 : state.points){
+                v_average += p1.getV();
+            }
+            v_average /= state.quantityPoints;
+            parameters.setV(v_average);
+            parameters.update();
         }
     }
 

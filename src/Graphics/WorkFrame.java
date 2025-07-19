@@ -68,14 +68,12 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
         // Кнопка Старт/Стоп
         JButton startStopButton = new JButton("Старт");
-        AtomicBoolean running = new AtomicBoolean(false);
 
         startStopButton.addActionListener(e -> {
-            if (!running.get()) {
+            if (!simulationRunner.isRunning()) {
                 int width_work = ((JSlider) widthControl[0]).getValue();
                 int height_work = ((JSlider) heightControl[0]).getValue();
                 startStopButton.setText("Стоп");
-                running.set(true);
                 toggleControls(gasPropertiesPanels, widthControl, heightControl, false);
                 SimulationState state = SimulationInitializer.init(
                         width_work,
@@ -84,7 +82,6 @@ public class WorkFrame<Model extends Models> extends JFrame {
                 simulationRunner.start(state);
             } else {
                 toggleControls(gasPropertiesPanels, widthControl, heightControl, true);
-                running.set(false);
                 startStopButton.setText("Старт");
                 simulationRunner.stop();
                 panelGet.repaint();

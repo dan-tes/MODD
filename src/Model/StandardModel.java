@@ -64,17 +64,7 @@ public class StandardModel extends Models {
                 new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
                 new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 0)
         };
-        super(500, 500, points_parameters);
-    }
-
-    @Override
-    public ThawingFunc[] getThawingFunc() {
-        return new ThawingFunc[]{thawing_func};
-    }
-
-    @Override
-    public DrawFunc[] getDrawFunc() {
-        return new DrawFunc[] {draw_func} ;
+        super(500, 500, points_parameters, thawing_func, draw_func);
     }
 
     @Override

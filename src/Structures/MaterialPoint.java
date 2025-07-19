@@ -9,7 +9,6 @@ import java.util.Random;
 
 
 public class MaterialPoint {
-    private double V;
     double x;
     public double mass;
     double y;
@@ -121,14 +120,8 @@ public class MaterialPoint {
         this.g = g;
     }
 
-    public void setV(double v) {
-        this.V = v;
-        setVx(Math.cos(getG()) * v);
-        setVy(Math.sin(getG()) * v);
-    }
-
     public double getV() {
-        return V;
+        return Math.sqrt(Math.pow(getVx(), 2) + Math.pow(getVy(), 2));
     }
 
     public void setColor(Color color) {

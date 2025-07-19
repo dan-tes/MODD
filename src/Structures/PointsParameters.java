@@ -3,7 +3,7 @@ package Structures;
 import Simulation.SpawnFunc;
 
 import java.awt.*;
-import java.util.function.Consumer;
+import java.util.Vector;
 
 public class PointsParameters {
     int temperature;
@@ -13,6 +13,14 @@ public class PointsParameters {
     double molarMass;
     SpawnFunc spawnFunc;
     short type;
+    Vector<MaterialPoint> points = new Vector<>();
+    double v;
+
+    public double getFx() {
+        return fx;
+    }
+
+    double fx;
 
     public PointsParameters(int molarMass, int temperature, int quantityPoints, Color color, SpawnFunc spawnFunc, int type) {
         this.molarMass = molarMass / 1000.0;
@@ -38,6 +46,9 @@ public class PointsParameters {
 
     public void setQuantityPoints(int quantityPoints) {
         this.quantityPoints = quantityPoints;
+    }
+    public void addPoint(MaterialPoint p) {
+        points.add(p);
     }
 
     public double getMolarMass() {
@@ -65,6 +76,23 @@ public class PointsParameters {
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature + 273;
+        this.temperature = temperature;
+    }
+
+    public void setV(double vAverage) {
+        v = vAverage;
+    }
+
+    public void update() {
+        double temperature = 10 * Math.pow(v, 2) * molarMass / 3/ 8.314 ;
+        fx = quantityPoints / molarMass * 8.314 * temperature / 100;
+    }
+    public boolean findPoint(MaterialPoint p) {
+        for (MaterialPoint p1 : points) {
+            if (p.equals(p1)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

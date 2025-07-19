@@ -1,10 +1,12 @@
 package Model;
 
 import Simulation.DrawFunc;
-import Simulation.Piston;
+import Structures.Piston;
 import Simulation.SimulationRunner;
 import Simulation.ThawingFunc;
 import Structures.PointsParameters;
+
+import java.util.Vector;
 
 public abstract class Models {
     public static final int xOffset = 70;
@@ -15,26 +17,43 @@ public abstract class Models {
     protected int weight;
     protected int height;
     protected PointsParameters[] pointsParameters;
+
+    public Piston getPiston() {
+        return piston;
+    }
+
     protected Piston piston;
 
-    public abstract ThawingFunc[] getThawingFunc();
-
-    public abstract DrawFunc[] getDrawFunc();
+    Vector<ThawingFunc> thawing_func = new Vector<>();
+    Vector<DrawFunc> draw_func = new Vector<>();
 
     public abstract String getDescription();
 
-    Models(int weight, int height, PointsParameters[] pointsParameters, Piston piston) {
+    Models(int weight, int height, PointsParameters[] pointsParameters,ThawingFunc thawingFunc, DrawFunc drawFunc , Piston piston) {
         this.weight = weight;
         this.height = height;
         this.pointsParameters = pointsParameters;
         this.piston = piston;
+        thawing_func.add(piston::thaw);
+        draw_func.add(piston::draw);
+        thawing_func.add(thawingFunc);
+        draw_func.add(drawFunc);
+
     }
-    Models(int weight, int height, PointsParameters[] pointsParameters) {
+    Models(int weight, int height, PointsParameters[] pointsParameters, ThawingFunc thawingFunc, DrawFunc drawFunc) {
         this.weight = weight;
         this.height = height;
         this.pointsParameters = pointsParameters;
+        thawing_func.add(thawingFunc);
+        draw_func.add(drawFunc);
+    }
+    public Vector<ThawingFunc> getThawingFunc() {
+        return thawing_func;
     }
 
+    public Vector<DrawFunc> getDrawFunc() {
+        return draw_func;
+    }
     public PointsParameters[] getPointsParameters() {
         return pointsParameters;
     }
