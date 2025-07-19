@@ -93,6 +93,10 @@ public class WorkFrame<Model extends Models> extends JFrame {
             model.setWeight(((JSlider) widthControl[0]).getValue());
             repaint();
         });
+        ((JSlider) widthControl[0]).addChangeListener(e -> {
+            model.getPiston().setX(((JSlider) widthControl[0]).getValue());
+        });
+
 
         ((JSlider) heightControl[0]).addChangeListener(e -> {
             model.setHeight(((JSlider) heightControl[0]).getValue());

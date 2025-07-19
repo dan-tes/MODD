@@ -67,6 +67,6 @@ public class PistonModel extends Models {
 
     @Override
     public String getDescription() {
-        return "Основная моделька";
+        return "Моделька с поршнем";
     }
 }

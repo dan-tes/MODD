@@ -63,4 +63,9 @@ public class Piston implements DrawFunc, ThawingFunc {
     public void stop() {
         x = x0;
     }
+
+    public void setX(int value) {
+        this.x = (double) value / 2;
+        this.x0 = (double) value / 2;
+    }
 }
