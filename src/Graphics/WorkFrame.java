@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+
 import Model.Models;
 
 import static Model.Models.*;
@@ -94,7 +95,10 @@ public class WorkFrame<Model extends Models> extends JFrame {
             repaint();
         });
         ((JSlider) widthControl[0]).addChangeListener(e -> {
-            model.getPiston().setX(((JSlider) widthControl[0]).getValue());
+            try {
+                model.getPiston().setX(((JSlider) widthControl[0]).getValue());
+            } catch (NullPointerException _) {
+            }
         });
 
 
@@ -142,7 +146,6 @@ public class WorkFrame<Model extends Models> extends JFrame {
         this.materialPoints = points;
         panelGet.repaint();
     }
-
 
 
     private JComponent[] createSliderSpinner(JPanel parent, int min, int max, int major, int minor, String labelText, int defaultValue, Consumer<Integer> consumer) {
