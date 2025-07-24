@@ -1,0 +1,1 @@
+Modeling of molecules, their movement, collisions in various situations, for example, with a piston, a semipermeable wall, and different types of molecules, velocities, and so on.  To run, clone and compile the project.
