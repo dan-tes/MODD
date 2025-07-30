@@ -1,5 +1,6 @@
 package Simulation;
 
+import Simulation.Handlers.ThawingFunc;
 import Structures.MaterialPoint;
 import Model.Models;
 import Structures.PointsParameters;

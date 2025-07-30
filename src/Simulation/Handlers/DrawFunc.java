@@ -1,6 +1,4 @@
-package Simulation;
-
-import Structures.MaterialPoint;
+package Simulation.Handlers;
 
 import java.awt.*;
 

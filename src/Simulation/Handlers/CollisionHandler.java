@@ -1,4 +1,4 @@
-package Simulation;
+package Simulation.Handlers;
 
 import Structures.MaterialPoint;
 

@@ -1,6 +1,6 @@
 package Structures;
 
-import Simulation.SpawnFunc;
+import Simulation.Handlers.SpawnFunc;
 
 import java.awt.*;
 import java.util.Vector;

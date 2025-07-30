@@ -1,9 +1,9 @@
 package Structures.Piston;
 
 import Model.Models;
-import Simulation.CollisionHandler;
-import Simulation.DrawFunc;
-import Simulation.ThawingFunc;
+import Simulation.Handlers.CollisionHandler;
+import Simulation.Handlers.DrawFunc;
+import Simulation.Handlers.ThawingFunc;
 import Structures.Coordinate;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;

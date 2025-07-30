@@ -1,6 +1,6 @@
 package Model;
 
-import Simulation.SpawnFunc;
+import Simulation.Handlers.SpawnFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 import Structures.Piston.VerticalPiston;

@@ -1,9 +1,9 @@
 package Model;
 
-import Simulation.DrawFunc;
+import Simulation.Handlers.DrawFunc;
 import Structures.Piston.Piston;
 import Simulation.SimulationRunner;
-import Simulation.ThawingFunc;
+import Simulation.Handlers.ThawingFunc;
 import Structures.PointsParameters;
 
 import java.util.Vector;

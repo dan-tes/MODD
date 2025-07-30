@@ -1,8 +1,6 @@
 package Model;
 
-import Simulation.DrawFunc;
-import Simulation.SpawnFunc;
-import Simulation.ThawingFunc;
+import Simulation.Handlers.SpawnFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 

@@ -1,6 +1,6 @@
 package Graphics;
 
-import Simulation.DrawFunc;
+import Simulation.Handlers.DrawFunc;
 import Simulation.SimulationInitializer;
 import Simulation.SimulationRunner;
 import Simulation.SimulationState;
