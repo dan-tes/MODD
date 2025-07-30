@@ -1,9 +1,7 @@
 package Model;
 
-import Simulation.DrawFunc;
-import Structures.Piston;
+import Structures.Piston.Piston;
 import Simulation.SpawnFunc;
-import Simulation.ThawingFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 

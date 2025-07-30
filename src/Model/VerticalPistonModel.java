@@ -2,9 +2,8 @@ package Model;
 
 import Simulation.SpawnFunc;
 import Structures.MaterialPoint;
-import Structures.Piston;
 import Structures.PointsParameters;
-import Structures.VerticalPiston;
+import Structures.Piston.VerticalPiston;
 
 import java.awt.*;
 

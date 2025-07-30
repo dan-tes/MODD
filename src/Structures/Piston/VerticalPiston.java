@@ -1,9 +1,12 @@
-package Structures;
+package Structures.Piston;
 
 import Model.Models;
 import Simulation.CollisionHandler;
 import Simulation.DrawFunc;
 import Simulation.ThawingFunc;
+import Structures.Coordinate;
+import Structures.MaterialPoint;
+import Structures.PointsParameters;
 
 import java.awt.*;
 
@@ -23,7 +26,7 @@ public class VerticalPiston extends Piston implements DrawFunc, ThawingFunc, Col
         if ((coordinate) <= p.getYFloat() && p.getYFloat() <= (coordinate + Models.border)) {
             double g = 9.8, mass = 0;
             for (PointsParameters parameters : this.a_p) {
-                mass += parameters.molarMass * parameters.quantityPoints;
+                mass += parameters.getMolarMass() * parameters.getQuantityPoints();
             }
 
             double f_a = getForce(a_p, coordinate) + mass * g, f_b = getForce(b_p, width - coordinate);

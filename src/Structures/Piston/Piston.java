@@ -1,9 +1,12 @@
-package Structures;
+package Structures.Piston;
 
 import Model.Models;
 import Simulation.CollisionHandler;
 import Simulation.DrawFunc;
 import Simulation.ThawingFunc;
+import Structures.Coordinate;
+import Structures.MaterialPoint;
+import Structures.PointsParameters;
 
 import java.awt.*;
 
