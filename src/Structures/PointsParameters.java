@@ -47,6 +47,7 @@ public class PointsParameters {
     public void setQuantityPoints(int quantityPoints) {
         this.quantityPoints = quantityPoints;
     }
+
     public void addPoint(MaterialPoint p) {
         points.add(p);
     }
@@ -83,10 +84,15 @@ public class PointsParameters {
         v = vAverage;
     }
 
+    public Vector<MaterialPoint> getPoints() {
+        return points;
+    }
+
     public void update() {
-        double temperature = 10 * Math.pow(v, 2) * molarMass / 3/ 8.314 ;
+        double temperature = 10 * Math.pow(v, 2) * molarMass / 3 / 8.314;
         fx = quantityPoints / molarMass * 8.314 * temperature / 100;
     }
+
     public boolean findPoint(MaterialPoint p) {
         for (MaterialPoint p1 : points) {
             if (p.equals(p1)) {

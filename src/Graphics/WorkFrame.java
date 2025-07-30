@@ -4,15 +4,16 @@ import Simulation.DrawFunc;
 import Simulation.SimulationInitializer;
 import Simulation.SimulationRunner;
 import Simulation.SimulationState;
+import Structures.Coordinate;
 import Structures.MaterialPoint;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import Model.Models;
+import Structures.Piston.*;
 
 import static Model.Models.*;
 
@@ -70,7 +71,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
         // Кнопка Старт/Стоп
         JButton startStopButton = new JButton("Старт");
 
-        startStopButton.addActionListener(e -> {
+        startStopButton.addActionListener(_ -> {
             if (!simulationRunner.isRunning()) {
                 int width_work = ((JSlider) widthControl[0]).getValue();
                 int height_work = ((JSlider) heightControl[0]).getValue();
@@ -96,11 +97,16 @@ public class WorkFrame<Model extends Models> extends JFrame {
         });
         ((JSlider) widthControl[0]).addChangeListener(e -> {
             try {
-                model.getPiston().setX(((JSlider) widthControl[0]).getValue());
+                model.getPiston().setCoordinate(((JSlider) widthControl[0]).getValue(), Coordinate.X);
             } catch (NullPointerException _) {
             }
         });
-
+        ((JSlider) heightControl[0]).addChangeListener(e -> {
+            try {
+                model.getPiston().setCoordinate(((JSlider) heightControl[0]).getValue(), Coordinate.Y);
+            } catch (NullPointerException _) {
+            }
+        });
 
         ((JSlider) heightControl[0]).addChangeListener(e -> {
             model.setHeight(((JSlider) heightControl[0]).getValue());
