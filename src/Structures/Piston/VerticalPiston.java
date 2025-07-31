@@ -15,6 +15,7 @@ public class VerticalPiston extends Piston implements DrawFunc, ThawingFunc, Col
         super(a_p, b_p, y);
         coord = Coordinate.Y;
     }
+
     @Override
     public void draw(Graphics g, int width, int height) {
         g.setColor(Color.BLUE);

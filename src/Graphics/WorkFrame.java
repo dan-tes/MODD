@@ -93,23 +93,18 @@ public class WorkFrame<Model extends Models> extends JFrame {
         ((JSlider) widthControl[0]).addChangeListener(e -> {
             model.setWeight(((JSlider) widthControl[0]).getValue());
             repaint();
-        });
-        ((JSlider) widthControl[0]).addChangeListener(e -> {
             try {
                 model.getPiston().setCoordinate(((JSlider) widthControl[0]).getValue(), Coordinate.X);
             } catch (NullPointerException _) {
             }
         });
         ((JSlider) heightControl[0]).addChangeListener(e -> {
+            model.setHeight(((JSlider) heightControl[0]).getValue());
+            repaint();
             try {
                 model.getPiston().setCoordinate(((JSlider) heightControl[0]).getValue(), Coordinate.Y);
             } catch (NullPointerException _) {
             }
-        });
-
-        ((JSlider) heightControl[0]).addChangeListener(e -> {
-            model.setHeight(((JSlider) heightControl[0]).getValue());
-            repaint();
         });
 
         panel.add(scrollPane, BorderLayout.CENTER);
