@@ -7,6 +7,7 @@ import Simulation.SimulationState;
 import Structures.Coordinate;
 import Structures.MaterialPoint;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
@@ -106,6 +107,18 @@ public class WorkFrame<Model extends Models> extends JFrame {
             } catch (NullPointerException _) {
             }
         });
+        List<CustomSlider> customSliders = model.getCustomSliders();
+        for (CustomSlider slider : customSliders) {
+            createSliderSpinner(controlPanel,
+                    slider.min(),
+                    slider.max(),
+                    slider.majorTick(),
+                    slider.minorTick(),
+                    slider.label(),
+                    slider.defaultValue(),
+                    slider.consumer());
+            controlPanel.add(Box.createVerticalStrut(10));
+        }
 
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(startStopButton, BorderLayout.SOUTH);

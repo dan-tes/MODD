@@ -1,11 +1,14 @@
 package Model;
 
+import Graphics.CustomSlider;
 import Simulation.Handlers.DrawFunc;
 import Structures.Piston.Piston;
 import Simulation.SimulationRunner;
 import Simulation.Handlers.ThawingFunc;
 import Structures.PointsParameters;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 public abstract class Models {
@@ -29,7 +32,7 @@ public abstract class Models {
 
     public abstract String getDescription();
 
-    Models(int weight, int height, PointsParameters[] pointsParameters,ThawingFunc thawingFunc, DrawFunc drawFunc , Piston piston) {
+    Models(int weight, int height, PointsParameters[] pointsParameters, ThawingFunc thawingFunc, DrawFunc drawFunc, Piston piston) {
         this.weight = weight;
         this.height = height;
         this.pointsParameters = pointsParameters;
@@ -40,6 +43,7 @@ public abstract class Models {
         draw_func.add(drawFunc);
 
     }
+
     Models(int weight, int height, PointsParameters[] pointsParameters, ThawingFunc thawingFunc, DrawFunc drawFunc) {
         this.weight = weight;
         this.height = height;
@@ -47,6 +51,11 @@ public abstract class Models {
         thawing_func.add(thawingFunc);
         draw_func.add(drawFunc);
     }
+
+    public List<CustomSlider> getCustomSliders() {
+        return Collections.emptyList();
+    }
+
     public Vector<ThawingFunc> getThawingFunc() {
         return thawing_func;
     }
@@ -54,6 +63,7 @@ public abstract class Models {
     public Vector<DrawFunc> getDrawFunc() {
         return draw_func;
     }
+
     public PointsParameters[] getPointsParameters() {
         return pointsParameters;
     }
