@@ -27,7 +27,7 @@ public class SpringPistonModel extends Models{
                 new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 0)
         };
         SpringPiston piston = new SpringPiston(new PointsParameters[]{points_parameters[0]},
-                new PointsParameters[]{points_parameters[1]}, 250, 2, 2);
+                new PointsParameters[]{points_parameters[1]}, 250, 20, 20);
         super(500, 500, points_parameters, (MaterialPoint p, int width, int height) -> {
             if (p.getXFloat() <= 0) {
                 p.setX(0.1);
@@ -75,6 +75,6 @@ public class SpringPistonModel extends Models{
     @Override
     public List<CustomSlider> getCustomSliders(){
         return List.of(new CustomSlider("Жесткость левой пружины", 0, 100, 25, 5, 20, piston::setRgidity_a),
-                new CustomSlider("Жесткость правой пружины", 0, 100, 25, 5, 20, piston::setRgidity_a));
+                new CustomSlider("Жесткость правой пружины", 0, 100, 25, 5, 20, piston::setRgidity_b));
     }
 }

@@ -23,6 +23,8 @@ public class WorkFrame<Model extends Models> extends JFrame {
     private final SimulationRunner simulationRunner;
     private final Model model;
     private Vector<MaterialPoint> materialPoints;
+    Vector<JComponent []> custom_set_panels = new Vector<>();
+
 
     public WorkFrame(SimulationRunner simulationRunner, Model model) {
         this.simulationRunner = simulationRunner;
@@ -109,14 +111,14 @@ public class WorkFrame<Model extends Models> extends JFrame {
         });
         List<CustomSlider> customSliders = model.getCustomSliders();
         for (CustomSlider slider : customSliders) {
-            createSliderSpinner(controlPanel,
+            custom_set_panels.add(createSliderSpinner(controlPanel,
                     slider.min(),
                     slider.max(),
                     slider.majorTick(),
                     slider.minorTick(),
                     slider.label(),
                     slider.defaultValue(),
-                    slider.consumer());
+                    slider.consumer()));
             controlPanel.add(Box.createVerticalStrut(10));
         }
 
@@ -134,6 +136,11 @@ public class WorkFrame<Model extends Models> extends JFrame {
         heightControl[0].setEnabled(b);
         widthControl[1].setEnabled(b);
         heightControl[1].setEnabled(b);
+        for (JComponent [] components : custom_set_panels) {
+            for (JComponent component : components) {
+                component.setEnabled(b);
+            }
+        }
     }
 
 
