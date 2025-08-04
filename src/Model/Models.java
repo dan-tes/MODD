@@ -53,7 +53,8 @@ public abstract class Models {
     }
 
     public List<CustomSlider> getCustomSliders() {
-        return Collections.emptyList();
+        return List.of(new CustomSlider("X", 5, 555, 50, 10, this.getWeight(), this::setWeight),
+                new CustomSlider("Y", 5, 555, 50, 10, this.getHeight(), this::setHeight));
     }
 
     public Vector<ThawingFunc> getThawingFunc() {

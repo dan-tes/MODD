@@ -4,7 +4,6 @@ import Model.Models;
 import Simulation.Handlers.CollisionHandler;
 import Simulation.Handlers.DrawFunc;
 import Simulation.Handlers.ThawingFunc;
-import Structures.Coordinate;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 
@@ -13,7 +12,6 @@ import java.awt.*;
 public class VerticalPiston extends Piston implements DrawFunc, ThawingFunc, CollisionHandler {
     public VerticalPiston(PointsParameters[] a_p, PointsParameters[] b_p, double y) {
         super(a_p, b_p, y);
-        coord = Coordinate.Y;
     }
 
     @Override

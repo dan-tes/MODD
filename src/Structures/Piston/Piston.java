@@ -4,7 +4,6 @@ import Model.Models;
 import Simulation.Handlers.CollisionHandler;
 import Simulation.Handlers.DrawFunc;
 import Simulation.Handlers.ThawingFunc;
-import Structures.Coordinate;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 
@@ -14,7 +13,6 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
     PointsParameters[] a_p, b_p;
 
     double coordinate, coordinate0;
-    Coordinate coord = Coordinate.X;
 
     public Piston(PointsParameters[] a_p, PointsParameters[] b_p, double x) {
         this.a_p = a_p;
@@ -70,9 +68,7 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
         coordinate = coordinate0;
     }
 
-    public void setCoordinate(int value, Coordinate coordinate) {
-        if (coord != coordinate)
-            return;
+    public void setCoordinate(int value) {
         this.coordinate = (double) value / 2;
         this.coordinate0 = (double) value / 2;
     }

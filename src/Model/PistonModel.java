@@ -67,4 +67,11 @@ public class PistonModel extends Models {
     public String getDescription() {
         return "Моделька с поршнем";
     }
+
+    @Override
+    public void setWeight(int weight) {
+        this.weight = weight;
+        piston.setCoordinate(weight);
+    }
 }
+

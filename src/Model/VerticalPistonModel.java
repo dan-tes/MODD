@@ -67,4 +67,10 @@ public class VerticalPistonModel extends Models{
     public String getDescription() {
         return "Моделька с вертикальным поршнем";
     }
+
+    @Override
+    public void setHeight(int height) {
+        this.height = height;
+        piston.setCoordinate(height);
+    }
 }

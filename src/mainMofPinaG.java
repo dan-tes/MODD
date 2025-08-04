@@ -2,7 +2,8 @@ import Graphics.ChoiceFrame;
 import Model.*;
 
 class ApplicationRunner{
-     public static Models[] models =  new Models[]{new StandardModel(), new BinModel(), new BinModel2(), new PistonModel(), new VerticalPistonModel(), new SpringPistonModel()};
+     public static Models[] models =  new Models[]{new StandardModel(), new BinModel(), new BinModel2(),
+             new PistonModel(), new VerticalPistonModel(), new SpringPistonModel()};
 }
 
 public class mainMofPinaG {

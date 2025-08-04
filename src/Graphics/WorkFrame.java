@@ -4,7 +4,6 @@ import Simulation.Handlers.DrawFunc;
 import Simulation.SimulationInitializer;
 import Simulation.SimulationRunner;
 import Simulation.SimulationState;
-import Structures.Coordinate;
 import Structures.MaterialPoint;
 
 import java.util.List;
@@ -60,9 +59,8 @@ public class WorkFrame<Model extends Models> extends JFrame {
         }
 
         // Width и Height
-        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", model.getWeight(), model::setWeight);
-        controlPanel.add(Box.createVerticalStrut(10));
-        JComponent[] heightControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", model.getHeight(), model::setHeight);
+//        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", model.getWeight(), model::setWeight);
+//        controlPanel.add(Box.create+createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", model.getHeight(), model::setHeight);
 
         // Прокрутка
         JScrollPane scrollPane = new JScrollPane(controlPanel);
@@ -75,40 +73,21 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
         startStopButton.addActionListener(_ -> {
             if (!simulationRunner.isRunning()) {
-                int width_work = ((JSlider) widthControl[0]).getValue();
-                int height_work = ((JSlider) heightControl[0]).getValue();
                 startStopButton.setText("Стоп");
-                toggleControls(gasPropertiesPanels, widthControl, heightControl, false);
+                toggleControls(gasPropertiesPanels, false);
                 SimulationState state = SimulationInitializer.init(
-                        width_work,
-                        height_work, model);
+                        model.getWeight(),
+                        model.getHeight(), model);
 
                 simulationRunner.start(state);
             } else {
-                toggleControls(gasPropertiesPanels, widthControl, heightControl, true);
+                toggleControls(gasPropertiesPanels, true);
                 startStopButton.setText("Старт");
                 simulationRunner.stop();
                 panelGet.repaint();
             }
         });
 
-        // Обновление размеров
-        ((JSlider) widthControl[0]).addChangeListener(e -> {
-            model.setWeight(((JSlider) widthControl[0]).getValue());
-            repaint();
-            try {
-                model.getPiston().setCoordinate(((JSlider) widthControl[0]).getValue(), Coordinate.X);
-            } catch (NullPointerException _) {
-            }
-        });
-        ((JSlider) heightControl[0]).addChangeListener(e -> {
-            model.setHeight(((JSlider) heightControl[0]).getValue());
-            repaint();
-            try {
-                model.getPiston().setCoordinate(((JSlider) heightControl[0]).getValue(), Coordinate.Y);
-            } catch (NullPointerException _) {
-            }
-        });
         List<CustomSlider> customSliders = model.getCustomSliders();
         for (CustomSlider slider : customSliders) {
             custom_set_panels.add(createSliderSpinner(controlPanel,
@@ -128,19 +107,16 @@ public class WorkFrame<Model extends Models> extends JFrame {
         return panel;
     }
 
-    private void toggleControls(GasPropertiesPanel[] gasPropertiesPanels, JComponent[] widthControl, JComponent[] heightControl, boolean b) {
+    private void toggleControls(GasPropertiesPanel[] gasPropertiesPanels, boolean b) {
         for (GasPropertiesPanel gasPropertiesPanel : gasPropertiesPanels) {
             gasPropertiesPanel.setEnabledAll(b);
         }
-        widthControl[0].setEnabled(b);
-        heightControl[0].setEnabled(b);
-        widthControl[1].setEnabled(b);
-        heightControl[1].setEnabled(b);
         for (JComponent [] components : custom_set_panels) {
             for (JComponent component : components) {
                 component.setEnabled(b);
             }
         }
+        repaint();
     }
 
 
@@ -198,18 +174,18 @@ public class WorkFrame<Model extends Models> extends JFrame {
         slider.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Связь слайдера и спиннера
-        slider.addChangeListener(e -> {
+        slider.addChangeListener(_ -> {
             int val = slider.getValue();
             spinner.setValue(Math.max(min, Math.min(max, val)));
             consumer.accept(slider.getValue());
         });
 
-        spinner.addChangeListener(e -> {
+        spinner.addChangeListener(_ -> {
             int val = (Integer) spinner.getValue();
             slider.setValue(Math.max(min, Math.min(max, val)));
             consumer.accept(slider.getValue());
+            repaint();
         });
-
         panel.add(slider);
         parent.add(panel);
         return new JComponent[]{slider, spinner};

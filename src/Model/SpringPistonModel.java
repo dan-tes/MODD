@@ -6,11 +6,12 @@ import Structures.Piston.Piston;
 import Structures.Piston.SpringPiston;
 import Structures.PointsParameters;
 import Graphics.CustomSlider;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpringPistonModel extends Models{
+public class SpringPistonModel extends Models {
     SpringPiston piston;
     private static final SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
         double x = point.getXFloat() / width;
@@ -21,6 +22,7 @@ public class SpringPistonModel extends Models{
         double x = point.getXFloat() / width;
         return x > 0.55;
     };
+
     public SpringPistonModel() {
         PointsParameters[] points_parameters = {
                 new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
@@ -67,14 +69,22 @@ public class SpringPistonModel extends Models{
         this.piston = piston;
     }
 
+    @Override
+    public void setWeight(int weight) {
+        this.weight = weight;
+        piston.setCoordinate(weight);
+    }
 
     @Override
     public String getDescription() {
         return "Модель с пружинками";
     }
+
     @Override
-    public List<CustomSlider> getCustomSliders(){
-        return List.of(new CustomSlider("Жесткость левой пружины", 0, 100, 25, 5, 20, piston::setRgidity_a),
+    public List<CustomSlider> getCustomSliders() {
+        return List.of(new CustomSlider("X", 5, 555, 50, 10, this.getWeight(), this::setWeight),
+                new CustomSlider("Y", 5, 555, 50, 10, this.getHeight(), this::setHeight),
+                new CustomSlider("Жесткость левой пружины", 0, 100, 25, 5, 20, piston::setRgidity_a),
                 new CustomSlider("Жесткость правой пружины", 0, 100, 25, 5, 20, piston::setRgidity_b));
     }
 }

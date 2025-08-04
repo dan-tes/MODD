@@ -17,7 +17,7 @@ public class SpringPiston extends Piston implements Spring {
     @Override
     public void draw(Graphics g, int width, int height) {
         g.setColor(Color.YELLOW);
-        g.fillRect(Models.xOffset,  Models.yOffset + width / 2, width + Models.radius * 2, Models.border);
+        g.fillRect(Models.xOffset,  Models.yOffset + height / 2, width + Models.radius * 2, Models.border);
         g.setColor(Color.BLUE);
         g.fillRect((int) (Models.xOffset + coordinate), Models.yOffset, Models.border, height + Models.radius * 2);
     }
