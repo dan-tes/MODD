@@ -2,6 +2,9 @@ package Graphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import Model.Models;
 
 class ModelPanel<Model extends Models> extends JPanel {
@@ -19,23 +22,32 @@ class ModelPanel<Model extends Models> extends JPanel {
 }
 
 public class ChoiceFrame<Model extends Models> extends JFrame {
+    public static String description = "Выбор модели";
     public ChoiceFrame(Model[] models) {
-        setLayout(new GridBagLayout());
+        setUndecorated(true);
+        setLayout(new BorderLayout());
+
+        // Добавляем кастомный заголовок окна
+        add(new WindowHeader(description, this), BorderLayout.NORTH);
+
+        // Основная панель с моделями
+        JPanel modelsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 1;
         c.gridheight = 1;
+
         for (Model m : models) {
             ModelPanel<Model> mPanel = new ModelPanel(m, this);
             mPanel.setBackground(Color.GREEN);
-            add(mPanel, c);
-            c.gridx+=2;
+            modelsPanel.add(mPanel, c);
+            c.gridx += 2;
         }
+
+        add(modelsPanel, BorderLayout.CENTER);
         setSize(new Dimension(1000, 700));
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
-
-

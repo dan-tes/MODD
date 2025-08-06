@@ -26,21 +26,29 @@ public class WorkFrame<Model extends Models> extends JFrame {
 
 
     public WorkFrame(SimulationRunner simulationRunner, Model model) {
+        setUndecorated(true);
+
         this.simulationRunner = simulationRunner;
         this.model = model;
-        setLayout(new BorderLayout());
-        setTitle("Particle Modeling");
 
+        // Главная панель
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // Добавляем заголовок с названием
+        mainPanel.add(new WindowHeader(model.getDescription(), this), BorderLayout.NORTH);
+
+        // Создание и добавление основных панелей
         panelSet = createControlPanel();
         panelGet = createSimulationPanel();
 
-        add(panelSet, BorderLayout.WEST);
-        add(panelGet, BorderLayout.CENTER);
+        mainPanel.add(panelSet, BorderLayout.WEST);
+        mainPanel.add(panelGet, BorderLayout.CENTER);
 
-        setSize(new Dimension(1000, 700));
+        setContentPane(mainPanel);
+        setSize(1000, 700);
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+
 
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -57,10 +65,6 @@ public class WorkFrame<Model extends Models> extends JFrame {
             controlPanel.add(gasPropertiesPanels[i]);
             controlPanel.add(Box.createVerticalStrut(10));
         }
-
-        // Width и Height
-//        JComponent[] widthControl = createSliderSpinner(controlPanel, 5, 555, 50, 10, "X", model.getWeight(), model::setWeight);
-//        controlPanel.add(Box.create+createSliderSpinner(controlPanel, 5, 555, 50, 10, "Y", model.getHeight(), model::setHeight);
 
         // Прокрутка
         JScrollPane scrollPane = new JScrollPane(controlPanel);

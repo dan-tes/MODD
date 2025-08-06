@@ -2,13 +2,11 @@ package Model;
 
 import Simulation.Handlers.SpawnFunc;
 import Structures.MaterialPoint;
-import Structures.Piston.Piston;
 import Structures.Piston.SpringPiston;
 import Structures.PointsParameters;
 import Graphics.CustomSlider;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SpringPistonModel extends Models {
