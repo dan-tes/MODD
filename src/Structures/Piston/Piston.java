@@ -12,7 +12,9 @@ import java.awt.*;
 public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
     PointsParameters[] a_p, b_p;
 
-    double coordinate, coordinate0;
+    double coordinate;
+    double coordinate0;
+    double persent = 50;
 
     public Piston(PointsParameters[] a_p, PointsParameters[] b_p, double x) {
         this.a_p = a_p;
@@ -69,7 +71,18 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
     }
 
     public void setCoordinate(int value) {
-        this.coordinate = (double) value / 2;
-        this.coordinate0 = (double) value / 2;
+        this.coordinate = (double) value * persent / 100;
+        this.coordinate0 = (double) value * persent / 100;
+    }
+
+    public void setPersent(double persent) {
+        double value = coordinate * 100  / this.persent;
+        this.persent = persent;
+        this.coordinate = (double) value * persent / 100;
+        this.coordinate0 = (double) value * persent / 100;
+    }
+
+    public double getPersent() {
+        return persent;
     }
 }

@@ -5,7 +5,10 @@ import Simulation.Handlers.SpawnFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 
+import Graphics.CustomSlider;
+
 import java.awt.*;
+import java.util.List;
 
 public class PistonModel extends Models {
     private static final SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
@@ -67,6 +70,12 @@ public class PistonModel extends Models {
     public String getDescription() {
         return "Моделька с поршнем";
     }
+//    @Override
+//    public List<CustomSlider> getCustomSliders() {
+//        return List.of(new CustomSlider("X", 5, 555, 50, 10, this.getWeight(), this::setWeight),
+//                new CustomSlider("Y", 5, 555, 50, 10, this.getHeight(), this::setHeight),
+//                new CustomSlider("Место поршня", 5, 95, 10, 5, (int) piston.getPersent(), piston::setPersent));
+//    }
 
     @Override
     public void setWeight(int weight) {
