@@ -1,10 +1,8 @@
 import Graphics.ChoiceFrame;
-import Model.*;
+import Model.ApplicationRunner;
 
 
-public class mainMofPinaG {
-    public static void main(String[] args) {
-        new ChoiceFrame(ApplicationRunner.models);
-//        new PistonModel().run();
-    }
+public static void main(String[] args) {
+    new ChoiceFrame(ApplicationRunner.models);
+
 }
