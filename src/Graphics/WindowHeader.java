@@ -127,6 +127,7 @@ public class WindowHeader extends JPanel {
         if (window != null) {
             window.dispose();
         }
+        System.exit(0);
     }
 
     private void showHelpDialog() {

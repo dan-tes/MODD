@@ -5,10 +5,7 @@ import Simulation.Handlers.SpawnFunc;
 import Structures.MaterialPoint;
 import Structures.PointsParameters;
 
-import Graphics.CustomSlider;
-
 import java.awt.*;
-import java.util.List;
 
 public class PistonModel extends Models {
     private static final SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
