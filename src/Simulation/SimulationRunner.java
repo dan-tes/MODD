@@ -2,14 +2,14 @@ package Simulation;
 
 import Structures.MaterialPoint;
 import Model.Models;
-import Graphics.WorkFrame;
+import Graphics.FrameMKT;
 
 import java.util.Vector;
 
 public class SimulationRunner<Model extends Models> implements Runnable {
     private SimulationState state;
     private Simulator simulator;
-    private final WorkFrame workFrame;
+    private final FrameMKT workFrame;
 
     public boolean isRunning() {
         return running;
@@ -20,7 +20,7 @@ public class SimulationRunner<Model extends Models> implements Runnable {
 
     public SimulationRunner(Model model) {
         this.model = model;
-        this.workFrame = new WorkFrame(this, model);
+        this.workFrame = new FrameMKT(this, model);
     }
 
     public void run() {

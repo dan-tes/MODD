@@ -16,7 +16,7 @@ import Model.Models;
 
 import static Model.Models.*;
 
-public class WorkFrame<Model extends Models> extends JFrame {
+public class FrameMKT<Model extends Models> extends JFrame {
     private final JPanel panelSet;
     private final JPanel panelGet;
     private final SimulationRunner simulationRunner;
@@ -25,7 +25,7 @@ public class WorkFrame<Model extends Models> extends JFrame {
     Vector<JComponent []> custom_set_panels = new Vector<>();
 
 
-    public WorkFrame(SimulationRunner simulationRunner, Model model) {
+    public FrameMKT(SimulationRunner simulationRunner, Model model) {
         setUndecorated(true);
 
         this.simulationRunner = simulationRunner;
