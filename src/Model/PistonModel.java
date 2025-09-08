@@ -10,7 +10,7 @@ import java.awt.*;
 public class PistonModel extends Models {
     private static final SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
         double x = point.getXFloat() / width;
-        return x < 0.45;
+        return x < 0.95;
     };
 
     private static final SpawnFunc spawnFunc2 = (MaterialPoint point, int width, int height) -> {
