@@ -15,7 +15,7 @@ public class mainMofPinaG {
         JButton button = new JButton("Молекулярно кинетическая история");
         button.addActionListener(_ -> {
             new ChoiceFrame(ApplicationRunner.models);
-//            frame.dispose();
+            frame.dispose();
         });
         frame.add(button);
         JButton buttonb = new JButton("Баллистика");

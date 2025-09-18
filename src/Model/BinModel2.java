@@ -16,7 +16,7 @@ public class BinModel2 extends Models {
             double x = (double) point.getX() / width, y = (double) point.getY() / height;
             return x > 0.55;
         };
-        super(20, 300, new PointsParameters[]{
+        super(200, 300, new PointsParameters[]{
                         new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
                         new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 1)},
                 (MaterialPoint p, int width, int height) -> {
