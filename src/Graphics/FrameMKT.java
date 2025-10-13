@@ -196,5 +196,10 @@ public class FrameMKT<Model extends Models> extends JFrame {
         parent.add(panel);
         return new JComponent[]{slider, spinner};
     }
+    @Override
+    public void dispose(){
+        super.dispose();
+        simulationRunner.stop();
 
+    }
 }

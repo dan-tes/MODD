@@ -41,9 +41,10 @@ public class WindowHeader extends JPanel {
             JButton backButton = createControlButton("—>", new Color(70, 70, 70));
 
             backButton.addActionListener(e -> {
-            frame.dispose(); // от ошибка this.getFrame( нет метода
-            new ChoiceFrame(ApplicationRunner.models);
-        });
+                frame.dispose(); // от ошибка this.getFrame( нет метод )
+
+                new ChoiceFrame(ApplicationRunner.models);
+            });
             rightPanel.add(backButton);
 
         }
@@ -118,7 +119,7 @@ public class WindowHeader extends JPanel {
     private void minimizeWindow() {
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window instanceof Frame) {
-            ((Frame)window).setState(Frame.ICONIFIED);
+            ((Frame) window).setState(Frame.ICONIFIED);
         }
     }
 

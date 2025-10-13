@@ -49,36 +49,55 @@ public class Simulator {
 
         if (distSq < radiusSum * radiusSum) {
             double distance = Math.sqrt(distSq);
-            if (distance == 0) distance = 0.01;  // во избежание деления на 0
+            if (distance == 0) distance = 0.001; // избегаем деления на 0
 
-            // Нормализованный вектор столкновения
+            // Нормаль столкновения
             double nx = dx / distance;
             double ny = dy / distance;
 
-            double vxRel = p1.getVx() - p2.getVx();
-            double vyRel = p1.getVy() - p2.getVy();
-            double velAlongNormal = vxRel * nx + vyRel * ny;
+            // Тангенциальный вектор
+            double tx = -ny;
+            double ty = nx;
 
-            if (velAlongNormal > 0) return;
+            // Проекции скоростей на нормаль и тангенс
+            double v1n = nx * p1.getVx() + ny * p1.getVy();
+            double v1t = tx * p1.getVx() + ty * p1.getVy();
+            double v2n = nx * p2.getVx() + ny * p2.getVy();
+            double v2t = tx * p2.getVx() + ty * p2.getVy();
 
+            // Новые нормальные скорости (упругое столкновение)
             double m1 = p1.mass;
             double m2 = p2.mass;
 
-            double impulse = (2 * velAlongNormal) / (m1 + m2);
+            double v1nAfter = (v1n * (m1 - m2) + 2 * m2 * v2n) / (m1 + m2);
+            double v2nAfter = (v2n * (m2 - m1) + 2 * m1 * v1n) / (m1 + m2);
 
-            p1.setVx(p1.getVx() - impulse * m2 * nx);
-            p1.setVy(p1.getVy() - impulse * m2 * ny);
-            p2.setVx(p2.getVx() + impulse * m1 * nx);
-            p2.setVy(p2.getVy() + impulse * m1 * ny);
+            // Собираем обратно векторы скоростей
+            double v1nX = v1nAfter * nx;
+            double v1nY = v1nAfter * ny;
+            double v1tX = v1t * tx;
+            double v1tY = v1t * ty;
 
+            double v2nX = v2nAfter * nx;
+            double v2nY = v2nAfter * ny;
+            double v2tX = v2t * tx;
+            double v2tY = v2t * ty;
+
+            p1.setVx(v1nX + v1tX);
+            p1.setVy(v1nY + v1tY);
+            p2.setVx(v2nX + v2tX);
+            p2.setVy(v2nY + v2tY);
+
+            // Раздвигаем частицы, чтобы не пересекались
             double overlap = radiusSum - distance;
-            double correctionRatio = 0.5;
-            p1.setX(p1.getXFloat() - nx * overlap * correctionRatio);
-            p1.setY(p1.getYFloat() - ny * overlap * correctionRatio);
-            p2.setX(p2.getXFloat() + nx * overlap * (1 - correctionRatio));
-            p2.setY(p2.getYFloat() + ny * overlap * (1 - correctionRatio));
+            double correction = overlap / 2.0;
+            p1.setX(p1.getXFloat() - nx * correction);
+            p1.setY(p1.getYFloat() - ny * correction);
+            p2.setX(p2.getXFloat() + nx * correction);
+            p2.setY(p2.getYFloat() + ny * correction);
         }
     }
+
 
 
     private void updatePosition(MaterialPoint p) {
