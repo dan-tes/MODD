@@ -24,7 +24,7 @@ public class SpringPiston extends Piston implements Spring {
 
     @Override
     public boolean thaw(MaterialPoint p, int width, int height) {
-        if ((coordinate) <= p.getXFloat() && p.getXFloat() <= (coordinate + Models.border)) {
+        if ((coordinate - (double) Models.border / 2) <= p.getXFloat() && p.getXFloat() <= (coordinate + Models.border)) {
             double f_a = getForce(a_p, coordinate) + (coordinate0 - coordinate) * rigidity_a, f_b = getForce(b_p, width - coordinate) - (coordinate0 - coordinate) * rigidity_b;
             System.out.println("1: " + f_a);
             System.out.println("2: " + f_b);

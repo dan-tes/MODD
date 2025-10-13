@@ -65,7 +65,7 @@ public class VerticalPistonModel extends Models{
 
     @Override
     public String getDescription() {
-        return "Моделька с вертикальным поршнем";
+        return "Модель с вертикальным поршнем";
     }
 
     @Override

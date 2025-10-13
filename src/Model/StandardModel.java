@@ -57,7 +57,7 @@ public class StandardModel extends Models {
         return true;
     };
 
-    private final String description = "Основная моделька";
+    private final String description = "Основная модель";
 
     public StandardModel() {
         PointsParameters[] points_parameters = {

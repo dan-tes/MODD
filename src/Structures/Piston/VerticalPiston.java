@@ -22,7 +22,7 @@ public class VerticalPiston extends Piston implements DrawFunc, ThawingFunc, Col
 
     @Override
     public boolean thaw(MaterialPoint p, int width, int height) {
-        if ((coordinate) <= p.getYFloat() && p.getYFloat() <= (coordinate + Models.border)) {
+        if ((coordinate - (double) Models.border / 2) <= p.getYFloat() && p.getYFloat() <= (coordinate + Models.border)) {
             double g = 9.8, mass = 0;
             for (PointsParameters parameters : this.a_p) {
                 mass += parameters.getMolarMass() * parameters.getQuantityPoints();
@@ -41,7 +41,7 @@ public class VerticalPiston extends Piston implements DrawFunc, ThawingFunc, Col
         boolean flag = false;
         for (PointsParameters p1 : a_p) {
             if (p1.findPoint(p)) {
-                p.setY(coordinate);
+                p.setY(coordinate - (double) Models.border / 2);
                 flag = true;
             }
         }

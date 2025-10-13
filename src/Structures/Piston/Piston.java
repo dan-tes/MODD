@@ -31,7 +31,7 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
 
     @Override
     public boolean thaw(MaterialPoint p, int width, int height) {
-        if ((coordinate) <= p.getXFloat() && p.getXFloat() <= (coordinate + Models.border)) {
+        if ((coordinate - (double) Models.border / 2) <= p.getXFloat() && p.getXFloat() <= (coordinate + Models.border)) {
             double f_a = getForce(a_p, coordinate), f_b = getForce(b_p, width - coordinate);
             System.out.println("1: " + f_a);
             System.out.println("2: " + f_b);
@@ -56,7 +56,7 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
         boolean flag = false;
         for (PointsParameters p1 : a_p) {
             if (p1.findPoint(p)) {
-                p.setX(coordinate);
+                p.setX(coordinate - (double) Models.border / 2);
                 flag = true;
             }
         }

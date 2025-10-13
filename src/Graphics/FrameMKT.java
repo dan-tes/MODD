@@ -128,6 +128,8 @@ public class FrameMKT<Model extends Models> extends JFrame {
         JPanel panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, 2000, 2000);
                 for (DrawFunc func : model.getDrawFunc())
                     func.draw(g, model.getWeight(), model.getHeight());
                 if (simulationRunner.isRunning() && materialPoints != null) {

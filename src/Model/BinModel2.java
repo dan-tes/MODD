@@ -64,6 +64,6 @@ public class BinModel2 extends Models {
 
     @Override
     public String getDescription() {
-        return "Двойная моделька 2";
+        return "Двойная модель 2";
     }
 }

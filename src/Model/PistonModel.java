@@ -48,6 +48,7 @@ public class PistonModel extends Models {
             }
             return true;
         }, (Graphics g, int width, int height) -> {
+
             g.setColor(Color.BLACK);
             g.fillRect(xOffset - border, yOffset - border, width + border + radius * 2, border);
             g.fillRect(xOffset - border, yOffset - border, border, height + border + radius * 2);
@@ -65,7 +66,7 @@ public class PistonModel extends Models {
 
     @Override
     public String getDescription() {
-        return "Моделька с поршнем";
+        return "Модель с поршнем";
     }
 //    @Override
 //    public List<CustomSlider> getCustomSliders() {

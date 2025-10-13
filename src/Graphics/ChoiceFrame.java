@@ -2,8 +2,6 @@ package Graphics;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import Model.Models;
 
@@ -37,12 +35,16 @@ public class ChoiceFrame<Model extends Models> extends JFrame {
         c.gridy = 0;
         c.gridwidth = 1;
         c.gridheight = 1;
+        c.insets = new Insets(5, 5, 5, 5);
 
         for (Model m : models) {
             ModelPanel<Model> mPanel = new ModelPanel(m, this);
-            mPanel.setBackground(Color.GREEN);
             modelsPanel.add(mPanel, c);
-            c.gridx += 2;
+            c.gridx += 1;
+            if (c.gridx == 4){
+                c.gridx = 0;
+                c.gridy += 1;
+            }
         }
 
         add(modelsPanel, BorderLayout.CENTER);
