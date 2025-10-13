@@ -7,7 +7,7 @@ import Structures.Piston.VerticalPiston;
 
 import java.awt.*;
 
-public class VerticalPistonModel extends Models{
+public class HorizontalPistonModel extends Models{
     private static final SpawnFunc spawnFunc1 = (MaterialPoint point, int width, int height) -> {
         double x = point.getXFloat() / width, y = point.getYFloat() / height;
         return y < 0.45;
@@ -18,7 +18,7 @@ public class VerticalPistonModel extends Models{
         return y > 0.55;
     };
 
-    public VerticalPistonModel() {
+    public HorizontalPistonModel() {
         PointsParameters[] points_parameters = {
                 new PointsParameters(200, 20, 20, Color.GREEN, spawnFunc1, 0),
                 new PointsParameters(300, 40, 40, Color.BLACK, spawnFunc2, 0)
@@ -65,7 +65,7 @@ public class VerticalPistonModel extends Models{
 
     @Override
     public String getDescription() {
-        return "Модель с вертикальным поршнем";
+        return "Модель с горизонтальным поршнем";
     }
 
     @Override
