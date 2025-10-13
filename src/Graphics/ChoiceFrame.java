@@ -24,9 +24,8 @@ public class ChoiceFrame<Model extends Models> extends JFrame {
     public ChoiceFrame(Model[] models) {
         setUndecorated(true);
         setLayout(new BorderLayout());
-
-        // Добавляем кастомный заголовок окна
         add(new WindowHeader(description, this), BorderLayout.NORTH);
+        // Добавляем кастомный заголовок окна
 
         // Основная панель с моделями
         JPanel modelsPanel = new JPanel(new GridBagLayout());

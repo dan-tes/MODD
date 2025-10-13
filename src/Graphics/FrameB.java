@@ -44,7 +44,8 @@ class FrameB extends JFrame {
     public FrameB(WorkMain workMain) {
         this.workMain = workMain;
         this.setLayout(new BorderLayout());
-
+        setUndecorated(true);
+        add(new WindowHeader("Кинематика", this), BorderLayout.NORTH);
         spinners = new JSpinner[metricOptions.size()][];
         selectedMetrics = new String[metricOptions.size()];
 

@@ -37,17 +37,18 @@ public class WindowHeader extends JPanel {
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
         rightPanel.setOpaque(false);
 
-        if (!Objects.equals(title, ChoiceFrame.description)) {
-            JButton backButton = createControlButton("—>", new Color(70, 70, 70));
+        JButton backButton = createControlButton("—>", new Color(70, 70, 70));
 
-            backButton.addActionListener(e -> {
-                frame.dispose(); // от ошибка this.getFrame( нет метод )
-
+        backButton.addActionListener(e -> {
+            frame.dispose(); // от ошибка this.getFrame( нет метод )
+            if (frame instanceof FrameMKT) {
                 new ChoiceFrame(ApplicationRunner.models);
-            });
-            rightPanel.add(backButton);
+            } else {
+                new StartWindow();
+            }
+        });
+        rightPanel.add(backButton);
 
-        }
 
         JButton minimizeButton = createControlButton("—", new Color(70, 70, 70));
         minimizeButton.addActionListener(e -> minimizeWindow());
