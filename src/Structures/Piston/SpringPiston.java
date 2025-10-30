@@ -38,7 +38,7 @@ public class SpringPiston extends Piston implements Spring {
             coordinate += (f_a - f_b) / (f_a + f_b);
 
             // Плавное обновление скоростей всех частиц
-            updateAllSpeeds(width);
+            updateAllSpeeds(width, (f_a - f_b) / (f_a + f_b));
 
             // Столкновение конкретной частицы с поршнем
             handleElasticCollision(p);

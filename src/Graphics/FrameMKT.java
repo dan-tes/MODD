@@ -6,11 +6,13 @@ import Simulation.SimulationRunner;
 import Simulation.SimulationState;
 import Structures.MaterialPoint;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -72,7 +74,8 @@ public class FrameMKT<Model extends Models> extends JFrame {
             controlPanel.add(gasPropertiesPanels[i]);
             controlPanel.add(Box.createVerticalStrut(10));
         }
-
+        JButton statisticsButton = new JButton("Статистика");
+        statisticsButton.setEnabled(false);
         // Прокрутка
         JScrollPane scrollPane = new JScrollPane(controlPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -89,13 +92,14 @@ public class FrameMKT<Model extends Models> extends JFrame {
                 SimulationState state = SimulationInitializer.init(
                         model.getWeight(),
                         model.getHeight(), model);
-
+                statisticsButton.setEnabled(true);
                 simulationRunner.start(state);
             } else {
                 toggleControls(gasPropertiesPanels, true);
                 startStopButton.setText("Старт");
                 simulationRunner.stop();
                 panelGet.repaint();
+                statisticsButton.setEnabled(false);
             }
         });
 
@@ -111,64 +115,73 @@ public class FrameMKT<Model extends Models> extends JFrame {
                     slider.consumer()));
             controlPanel.add(Box.createVerticalStrut(10));
         }
-        JButton statisticsButton = new JButton("Статистика");
 
 
         statisticsButton.addActionListener(_ -> {
-            try {
+            statisticsButton.setEnabled(false);
+            new Thread(() -> {
+                try {
+                    // 1️⃣ Получаем JSON
+                    String json = simulationRunner.getJSON();
 
-                String json = simulationRunner.getJSON();
-
-                // 2️⃣ Записываем JSON в файл
-                File jsonFile = new File("data.json");
-                try (FileWriter writer = new FileWriter(jsonFile)) {
-                    writer.write(json);
-                }
-
-                // 3️⃣ Запускаем Python для построения графика
-                ProcessBuilder pb = new ProcessBuilder("python", "plot_stats.py");
-                pb.redirectErrorStream(true);
-                Process process = pb.start();
-
-                // 4️⃣ Читаем вывод Python (для отладки)
-                try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(process.getInputStream()))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        System.out.println(line);
+                    // 2️⃣ Записываем JSON в файл
+                    File jsonFile = new File("data.json");
+                    try (FileWriter writer = new FileWriter(jsonFile)) {
+                        writer.write(json);
                     }
-                }
 
-                int exitCode = process.waitFor();
-                if (exitCode != 0) {
-                    throw new RuntimeException("Python завершился с кодом " + exitCode);
-                }
+                    // 3️⃣ Запускаем Python для построения графика
+                    ProcessBuilder pb = new ProcessBuilder("python", "plot_stats.py");
+                    pb.redirectErrorStream(true);
+                    Process process = pb.start();
 
-                // 5️⃣ Отображаем график в отдельном окне
-                ImageIcon icon = new ImageIcon("chart.png");
-                JLabel label = new JLabel(icon);
-                JFrame chartFrame = new JFrame("График статистики");
-                chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        // Удаляем файлы
-                        File jsonFile = new File("data.json");
-                        if (jsonFile.exists()) jsonFile.delete();
-
-                        File chartFile = new File("chart.png");
-                        if (chartFile.exists()) chartFile.delete();
+                    // 4️⃣ Читаем вывод Python (для отладки)
+                    try (BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(process.getInputStream()))) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            System.out.println(line);
+                        }
                     }
-                });
-                chartFrame.add(label);
-                chartFrame.pack();
-                chartFrame.setLocationRelativeTo(null);
-                chartFrame.setVisible(true);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ошибка при построении графика: " + e.getMessage());
-            }
+                    int exitCode = process.waitFor();
+                    if (exitCode != 0) {
+                        throw new RuntimeException("Python завершился с кодом " + exitCode);
+                    }
+
+                    // 5️⃣ Загружаем картинку через BufferedImage
+                    BufferedImage img = ImageIO.read(new File("chart.png"));
+                    ImageIcon icon = new ImageIcon(img);
+                    JLabel label = new JLabel(icon);
+
+                    // 6️⃣ Создаём JFrame для отображения графика
+                    SwingUtilities.invokeLater(() -> { // GUI обновляем в EDT
+                        JFrame chartFrame = new JFrame("График статистики");
+                        chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                                // Удаляем файлы
+                                if (jsonFile.exists()) jsonFile.delete();
+                                File chartFile = new File("chart.png");
+                                if (chartFile.exists()) chartFile.delete();
+                            }
+                        });
+                        chartFrame.add(label);
+                        chartFrame.pack();
+                        chartFrame.setLocationRelativeTo(null);
+                        chartFrame.setVisible(true);
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    SwingUtilities.invokeLater(() ->
+                            JOptionPane.showMessageDialog(null, "Ошибка при построении графика: " + e.getMessage())
+                    );
+                }
+            }).start();
+            statisticsButton.setEnabled(true);
         });
+
 
         panel.add(scrollPane, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel(new FlowLayout());

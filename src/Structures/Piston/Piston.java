@@ -46,7 +46,7 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
             coordinate += (f_a - f_b) / (f_a + f_b);
 
             // Обновляем скорости всех частиц по обе стороны
-            updateAllSpeeds(width);
+            updateAllSpeeds(width, (f_a - f_b) / (f_a + f_b));
 
             // Столкновение частицы с поршнем
             handleElasticCollision(p);
@@ -64,17 +64,9 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
         return f_average / l;
     }
 
-    void updateAllSpeeds(int width) {
-        double currentDistanceA = coordinate;
-        double currentDistanceB = width - coordinate;
-
-        // целевые коэффициенты (не применяются напрямую)
-        double targetFactorA = Math.pow(initialDistanceA / currentDistanceA, 0.1);
-        double targetFactorB = Math.pow(initialDistanceB / currentDistanceB, 0.1);
-
-        double smoothing = 0.01; // скорость "подстройки"
-
-        updateAllSpeedSmooth(targetFactorA, targetFactorB, smoothing);
+    void updateAllSpeeds(int width,  double delta) {
+        double smoothing = 0.05; // скорость "подстройки"
+        updateAllSpeedSmooth(1 - delta * smoothing, 1+delta * smoothing, smoothing);
     }
 
     private void updateAllSpeedSmooth(double targetA, double targetB, double smoothing) {
@@ -134,8 +126,8 @@ public class Piston implements DrawFunc, ThawingFunc, CollisionHandler {
     public void setPersent(double persent) {
         double value = coordinate * 100  / this.persent;
         this.persent = persent;
-        this.coordinate = (double) value * persent / 100;
-        this.coordinate0 = (double) value * persent / 100;
+        this.coordinate = value * persent / 100;
+        this.coordinate0 = value * persent / 100;
     }
 
     public double getPersent() {
