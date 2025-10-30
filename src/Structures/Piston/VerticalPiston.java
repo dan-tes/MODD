@@ -31,6 +31,7 @@ public class VerticalPiston extends Piston implements DrawFunc, ThawingFunc, Col
             double f_a = getForce(a_p, coordinate) + mass * g, f_b = getForce(b_p, width - coordinate);
             coordinate += (f_a - f_b) / (f_a + f_b);
             handleElasticCollision(p);
+            updateAllSpeeds(width);
             return true;
         }
         return false;

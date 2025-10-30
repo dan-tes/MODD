@@ -122,7 +122,7 @@ public class Simulator {
             for (MaterialPoint point: pps[i].getPoints()){
                 array[i] += point.getV();
             }
-            array[i] /= pps.length;
+            array[i] /= pps[i].getPoints().size();
         }
         speed.add(array);
     }
