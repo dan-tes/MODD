@@ -6,11 +6,18 @@ import Simulation.SimulationRunner;
 import Simulation.SimulationState;
 import Structures.MaterialPoint;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
+import java.util.List;
 import java.util.function.Consumer;
+
+import com.google.gson.Gson;
+
 
 import Model.Models;
 
@@ -22,7 +29,7 @@ public class FrameMKT<Model extends Models> extends JFrame {
     private final SimulationRunner simulationRunner;
     private final Model model;
     private Vector<MaterialPoint> materialPoints;
-    Vector<JComponent []> custom_set_panels = new Vector<>();
+    Vector<JComponent[]> custom_set_panels = new Vector<>();
 
 
     public FrameMKT(SimulationRunner simulationRunner, Model model) {
@@ -104,10 +111,70 @@ public class FrameMKT<Model extends Models> extends JFrame {
                     slider.consumer()));
             controlPanel.add(Box.createVerticalStrut(10));
         }
+        JButton statisticsButton = new JButton("Статистика");
+
+
+        statisticsButton.addActionListener(_ -> {
+            try {
+
+                String json = simulationRunner.getJSON();
+
+                // 2️⃣ Записываем JSON в файл
+                File jsonFile = new File("data.json");
+                try (FileWriter writer = new FileWriter(jsonFile)) {
+                    writer.write(json);
+                }
+
+                // 3️⃣ Запускаем Python для построения графика
+                ProcessBuilder pb = new ProcessBuilder("python", "plot_stats.py");
+                pb.redirectErrorStream(true);
+                Process process = pb.start();
+
+                // 4️⃣ Читаем вывод Python (для отладки)
+                try (BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(process.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                }
+
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    throw new RuntimeException("Python завершился с кодом " + exitCode);
+                }
+
+                // 5️⃣ Отображаем график в отдельном окне
+                ImageIcon icon = new ImageIcon("chart.png");
+                JLabel label = new JLabel(icon);
+                JFrame chartFrame = new JFrame("График статистики");
+                chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        // Удаляем файлы
+                        File jsonFile = new File("data.json");
+                        if (jsonFile.exists()) jsonFile.delete();
+
+                        File chartFile = new File("chart.png");
+                        if (chartFile.exists()) chartFile.delete();
+                    }
+                });
+                chartFrame.add(label);
+                chartFrame.pack();
+                chartFrame.setLocationRelativeTo(null);
+                chartFrame.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Ошибка при построении графика: " + e.getMessage());
+            }
+        });
 
         panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(startStopButton, BorderLayout.SOUTH);
-
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(startStopButton);
+        buttonPanel.add(statisticsButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
     }
 
@@ -115,7 +182,7 @@ public class FrameMKT<Model extends Models> extends JFrame {
         for (GasPropertiesPanel gasPropertiesPanel : gasPropertiesPanels) {
             gasPropertiesPanel.setEnabledAll(b);
         }
-        for (JComponent [] components : custom_set_panels) {
+        for (JComponent[] components : custom_set_panels) {
             for (JComponent component : components) {
                 component.setEnabled(b);
             }
@@ -196,10 +263,13 @@ public class FrameMKT<Model extends Models> extends JFrame {
         parent.add(panel);
         return new JComponent[]{slider, spinner};
     }
+
     @Override
-    public void dispose(){
+    public void dispose() {
         super.dispose();
         simulationRunner.stop();
 
     }
+
+
 }

@@ -5,11 +5,14 @@ import Structures.MaterialPoint;
 import Model.Models;
 import Structures.PointsParameters;
 
+import java.util.ArrayList;
+
 import static Model.Models.radius;
 
 public class Simulator {
     private final SimulationState state;
     Models models;
+    ArrayList<Double []> speed = new ArrayList<>();
 
     public Simulator(SimulationState state, Models models) {
         this.state = state;
@@ -109,5 +112,18 @@ public class Simulator {
         double g = Math.toDegrees(Math.atan2(p.getVy(), p.getVx()));
         if (g < 0) g += 360;
         p.setG(g);
+    }
+
+    public void history() {
+        PointsParameters [] pps = models.getPointsParameters();
+        Double [] array = new Double[pps.length];
+        for (int i = 0; i < pps.length; i++){
+            array[i] = 0.0;
+            for (MaterialPoint point: pps[i].getPoints()){
+                array[i] += point.getV();
+            }
+            array[i] /= pps.length;
+        }
+        speed.add(array);
     }
 }

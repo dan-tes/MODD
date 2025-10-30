@@ -1,6 +1,6 @@
 package Graphics;
 
-import Model.ApplicationRunner;
+import Model.*;
 import Physics.WorkMain;
 
 import javax.swing.*;
