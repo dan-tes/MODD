@@ -17,7 +17,7 @@ public class SimulationRunner<Model extends Models> implements Runnable {
     }
 
     private boolean running = true;
-    private Model model;
+    private final Model model;
 
     public SimulationRunner(Model model) {
         this.model = model;
@@ -75,7 +75,7 @@ public class SimulationRunner<Model extends Models> implements Runnable {
             return "{}"; // нет данных
         }
 
-        int dimensions = ysData.get(0).length; // количество координат (например, x, y, z)
+        int dimensions = ysData.getFirst().length; // количество координат (например, x, y, z)
 
         // Создаём отдельный график для каждой координаты
         for (int dim = 0; dim < dimensions; dim++) {
@@ -97,7 +97,20 @@ public class SimulationRunner<Model extends Models> implements Runnable {
 
         Map<String, Object> data = new HashMap<>();
         data.put("graphs", graphs);
+        List<Map<String, Object>> velocities = new ArrayList<>();
+        for (int i = 0; i < model.getPointsParameters().length; i++) {
+            List<Double> xData = new ArrayList<>();
+            for (int j = 0; j < model.getPointsParameters()[i].getPoints().size(); j++) {
+                xData.add(model.getPointsParameters()[i].getPoints().get(j).getV());
+            }
+            Map<String, Object> velocity = new HashMap<>();
+            velocity.put("x", xData);
+            velocity.put("T", model.getPointsParameters()[i].getTemperature());
+            velocity.put("M", model.getPointsParameters()[i].getMolarMass());
 
+            velocities.add(velocity);
+        }
+        data.put("velocities", velocities);
         Gson gson = new Gson();
         return gson.toJson(data);
     }

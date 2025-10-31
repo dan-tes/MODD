@@ -130,7 +130,7 @@ public class FrameMKT<Model extends Models> extends JFrame {
                         writer.write(json);
                     }
 
-                    // 3️⃣ Запускаем Python для построения графика
+                    // 3️⃣ Запускаем Python для построения графиков
                     ProcessBuilder pb = new ProcessBuilder("python", "plot_stats.py");
                     pb.redirectErrorStream(true);
                     Process process = pb.start();
@@ -149,27 +149,48 @@ public class FrameMKT<Model extends Models> extends JFrame {
                         throw new RuntimeException("Python завершился с кодом " + exitCode);
                     }
 
-                    // 5️⃣ Загружаем картинку через BufferedImage
-                    BufferedImage img = ImageIO.read(new File("chart.png"));
-                    ImageIcon icon = new ImageIcon(img);
-                    JLabel label = new JLabel(icon);
+                    // 5️⃣ Собираем все сгенерированные изображения
+                    File dir = new File(".");
+                    File[] chartFiles = dir.listFiles((d, name) -> name.startsWith("chart") && name.endsWith(".png"));
 
-                    // 6️⃣ Создаём JFrame для отображения графика
-                    SwingUtilities.invokeLater(() -> { // GUI обновляем в EDT
-                        JFrame chartFrame = new JFrame("График статистики");
-                        chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-                            @Override
-                            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                                // Удаляем файлы
-                                if (jsonFile.exists()) jsonFile.delete();
-                                File chartFile = new File("chart.png");
-                                if (chartFile.exists()) chartFile.delete();
-                            }
-                        });
-                        chartFrame.add(label);
-                        chartFrame.pack();
+                    if (chartFiles == null || chartFiles.length == 0) {
+                        throw new RuntimeException("Не найдено ни одного графика!");
+                    }
+
+                    // 6️⃣ Создаём панель с изображениями
+                    JPanel panel_images = new JPanel();
+                    panel_images.setLayout(new BoxLayout(panel_images, BoxLayout.Y_AXIS));
+                    for (File chartFile : chartFiles) {
+                        try {
+                            BufferedImage img = ImageIO.read(chartFile);
+                            JLabel label = new JLabel(new ImageIcon(img));
+                            label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                            panel_images.add(label);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    // 7️⃣ Создаём окно с прокруткой
+                    SwingUtilities.invokeLater(() -> {
+                        JFrame chartFrame = new JFrame("Графики симуляции");
+                        JScrollPane scrollPane_ = new JScrollPane(panel_images);
+                        chartFrame.add(scrollPane_);
+
+                        chartFrame.setSize(900, 700);
                         chartFrame.setLocationRelativeTo(null);
                         chartFrame.setVisible(true);
+
+                        // Очистка файлов при закрытии
+                        chartFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                if (jsonFile.exists()) jsonFile.delete();
+                                for (File chartFile : chartFiles) {
+                                    chartFile.delete();
+                                }
+                            }
+                        });
                     });
 
                 } catch (Exception e) {
@@ -177,9 +198,11 @@ public class FrameMKT<Model extends Models> extends JFrame {
                     SwingUtilities.invokeLater(() ->
                             JOptionPane.showMessageDialog(null, "Ошибка при построении графика: " + e.getMessage())
                     );
+                } finally {
+                    statisticsButton.setEnabled(true);
                 }
+
             }).start();
-            statisticsButton.setEnabled(true);
         });
 
 
